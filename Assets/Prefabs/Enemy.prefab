@@ -99,7 +99,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &114103228394638384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,6 +113,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1
   speed: 10
+  dashForce: 10
+  dashCooldown: 3
+  minDistanceToDash: 10
 --- !u!114 &114503396640489200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699356454c88047c5a4e653bcae87bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDistanceToDash: 10
 --- !u!114 &114820587702351502
 MonoBehaviour:
   m_ObjectHideFlags: 1

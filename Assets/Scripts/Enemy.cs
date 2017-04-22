@@ -93,7 +93,6 @@ public class Enemy : LivingEntity {
 			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && CanDash()) {
 
 				enemyState = State.Dash;
-				Debug.Log("Use dash");
 				UseDash();
 				return;
 

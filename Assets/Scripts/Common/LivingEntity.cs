@@ -37,7 +37,7 @@ public class LivingEntity : MonoBehaviour {
 	public void UseDash(){
 
 		timeToDash = Time.time + dashCooldown;
-		//Debug.Log("Reset: " + timeToDash);
+		Debug.Log("DASHZAO");
 
 		canDash = false;
 
