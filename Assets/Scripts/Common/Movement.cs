@@ -16,4 +16,11 @@ public class Movement : MonoBehaviour {
 
 		rb.AddForce(movement * speed);
 	}
+
+	void OnCollisionEnter(Collision collision) {
+		string tag = collision.gameObject.tag;
+		if (tag == "Enemy" || tag == "Player") {
+			rb.AddForce(collision.contacts[0].normal * collision.relativeVelocity.magnitude, ForceMode.Impulse);
+		}
+	}
 }
