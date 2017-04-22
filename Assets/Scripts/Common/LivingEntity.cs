@@ -7,6 +7,7 @@ public class LivingEntity : MonoBehaviour {
 	[Range(1, 1000)]
 	public int life = 1;
 	public int speed = 10;
+	public int dashForce = 10;
 
 	void TakeDamage(int damage){
 
