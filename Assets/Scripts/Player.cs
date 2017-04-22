@@ -18,7 +18,7 @@ public class Player : LivingEntity {
 		moveHorizontal = Input.GetAxisRaw("Horizontal");
 		moveVertical = Input.GetAxisRaw("Vertical");
 
-		willDash = Input.GetButtonDown("Fire1");
+		willDash = Input.GetButtonDown("Fire3");
 
 	}
 	
