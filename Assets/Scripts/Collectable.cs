@@ -10,6 +10,8 @@ public class Collectable : MonoBehaviour {
 	BoxCollider collider;
 	MeshRenderer renderer;
 
+	int powerupAmount = 1;
+
 	// Use this for initialization
 	void Start () {
 
@@ -30,7 +32,7 @@ public class Collectable : MonoBehaviour {
 
 		StartCoroutine(Spawn());
 
-		return Random.Range(0, 1);
+		return Random.Range(0, powerupAmount);
 
 	}
 

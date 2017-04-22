@@ -39,10 +39,10 @@ public class Player : LivingEntity {
 	
 	void FixedUpdate () {
 
-		movementController.Move(moveHorizontal, moveVertical, speed);
+		movementController.Move(moveHorizontal, moveVertical, speed * powerupController.forceMultiplier);
 		if (willDash && CanDash()) {
 			UseDash();
-			movementController.Dash(moveHorizontal, moveVertical, dashForce);
+			movementController.Dash(moveHorizontal, moveVertical, dashForce * powerupController.forceMultiplier);
 		}
 	}
 }

@@ -25,7 +25,6 @@ public class LivingEntity : MonoBehaviour {
 			canDash = Time.time >= timeToDash;
 
 		}
-
 	}
 
 	public bool CanDash(){
