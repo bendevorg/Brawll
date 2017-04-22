@@ -9,6 +9,9 @@ public class Enemy : LivingEntity {
 	Movement movementController;
 	Powerup powerupController;
 
+	public LayerMask obstacleMask;
+	Transform ground;
+
 	private List<Player> players = new List<Player>();
 	Target target;
 
@@ -18,17 +21,19 @@ public class Enemy : LivingEntity {
 
 	Rigidbody rb;
 
-	enum State {Engage, Dash};
+	enum State {Engage, Dash, Desengage};
 	State enemyState;
 
 	float maxYDistanceToHit;
-	public float minDistanceToDash = 10f;
+	public float minDistanceToDash = 5f;
+	float impossibleDodgeDistanceDash = 0.3f;
 
 	// Use this for initialization
 	void Start () {
 
 		rb = GetComponent<Rigidbody>();
 		sphereCollider = GetComponent<SphereCollider>();
+		ground = GameObject.FindGameObjectWithTag("Ground").transform;
 		movementController = GetComponent<Movement>();
 		powerupController = GetComponent<Powerup>();
 
@@ -59,6 +64,13 @@ public class Enemy : LivingEntity {
 
 		switch (enemyState){
 
+			case State.Desengage:
+
+				Vector3 direction = (ground.position - transform.position);
+				input = new Vector2(direction.x, direction.z);
+				movementController.Move(input.x, input.y, speed);
+				break;
+
 			case State.Dash:
 
 				movementController.Dash(input.x, input.y, dashForce);
@@ -87,10 +99,27 @@ public class Enemy : LivingEntity {
 		//Vector3 direction = (target.position - transform.position);
 		input = new Vector2(direction.x, direction.z);
 
-
 	}
 	
 	public void DecideState(){
+		
+		//	Kill certo
+		if (target.distance <= impossibleDodgeDistanceDash && CanDash()){
+
+			enemyState = State.Dash;
+			UseDash();
+			return;
+
+		}
+
+		Vector3 oneSecondFuturePosition = (transform.position + rb.velocity);
+
+		if (!Physics.Raycast(oneSecondFuturePosition, -Vector3.up, Mathf.Infinity, obstacleMask)){
+
+			enemyState = State.Desengage;
+			return;
+
+		}
 
 		if (target.distance <= minDistanceToDash){
 
