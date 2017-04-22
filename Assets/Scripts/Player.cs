@@ -13,18 +13,22 @@ public class Player : LivingEntity {
 		movementController = GetComponent<Movement>();
 	}
 
-	void Update() {
+	public override void Update() {
+		base.Update();
 		moveHorizontal = Input.GetAxisRaw("Horizontal");
 		moveVertical = Input.GetAxisRaw("Vertical");
 
 		willDash = Input.GetButtonDown("Fire1");
+
+		Debug.Log(CanDash());
 
 	}
 	
 	void FixedUpdate () {
 
 		movementController.Move(moveHorizontal, moveVertical, speed);
-		if (willDash) {
+		if (willDash && CanDash()) {
+			UseDash();
 			movementController.Dash(moveHorizontal, moveVertical, dashForce);
 		}
 	}

@@ -10,7 +10,38 @@ public class LivingEntity : MonoBehaviour {
 	public int speed = 10;
 	public int dashForce = 10;
 
+	public float dashCooldown = 3f;
+	float timeToDash = 0f;
+	bool canDash = true;
+
 	public event Action<GameObject> OnEntityDeath;
+
+	public virtual void Update(){
+
+		if (!canDash){
+
+			//Debug.Log(timeToDash);
+
+			canDash = Time.time >= timeToDash;
+
+		}
+
+	}
+
+	public bool CanDash(){
+
+		return canDash;
+
+	}
+
+	public void UseDash(){
+
+		timeToDash = Time.time + dashCooldown;
+		//Debug.Log("Reset: " + timeToDash);
+
+		canDash = false;
+
+	}
 
 	void TakeDamage(int damage){
 
@@ -36,15 +67,10 @@ public class LivingEntity : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 
-		Debug.Log("Olar");
-
 		if (other.tag == "Instakill"){
 
-			Debug.Log("Olar");
 			Death();
 
-		}
-		
+		}	
 	}
-
 }
