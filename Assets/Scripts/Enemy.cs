@@ -36,8 +36,8 @@ public class Enemy : LivingEntity {
 		maxYDistanceToHit = sphereCollider.radius;
 
 		List<GameObject> livingEntities = new List<GameObject>();
-		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Player"));
 		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Player"));
 
 		foreach (GameObject livingEntity in livingEntities){
 
@@ -82,9 +82,9 @@ public class Enemy : LivingEntity {
 
 		//	Decidindo a direção que vamos
 		Vector3 finalTargetPos = target.position + (target.velocity);
-		//Vector3 direction = (finalTargetPos - transform.position);
 
-		Vector3 direction = (target.position - transform.position);
+		Vector3 direction = (finalTargetPos - transform.position);
+		//Vector3 direction = (target.position - transform.position);
 		input = new Vector2(direction.x, direction.z);
 
 
