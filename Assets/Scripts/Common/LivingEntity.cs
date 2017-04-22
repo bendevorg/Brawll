@@ -7,8 +7,8 @@ public class LivingEntity : MonoBehaviour {
 
 	[Range(1, 1000)]
 	public int life = 1;
-	public int speed = 10;
-	public int dashForce = 10;
+	public float speed = 10;
+	public float dashForce = 10;
 
 	public float dashCooldown = 3f;
 	float timeToDash = 0f;

@@ -20,8 +20,6 @@ public class Player : LivingEntity {
 
 		willDash = Input.GetButtonDown("Fire1");
 
-		Debug.Log(CanDash());
-
 	}
 	
 	void FixedUpdate () {

@@ -41,10 +41,9 @@ public class ArtificialIntelligence : MonoBehaviour {
 			livingEntity.GetComponent<LivingEntity>().OnEntityDeath += RemoveEntity;
 
 		}
-		
 	}
 
-	public void DecideNextMovement(int speed, int dashForce){
+	public void DecideNextMovement(float speed, float dashForce){
 
 		DecideTarget();
 

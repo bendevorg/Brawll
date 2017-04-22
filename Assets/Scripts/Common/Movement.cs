@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 	}
 
-	public void Move(float inputHorizontal, float inputVertical, int speed) {
+	public void Move(float inputHorizontal, float inputVertical, float speed) {
 		Vector3 movement = new Vector3(inputHorizontal, 0.0f, inputVertical).normalized;
 
 		rb.AddForce(movement * speed);
