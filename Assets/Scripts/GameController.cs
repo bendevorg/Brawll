@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour {
 
 	public static GameController gameController = null;
 
-	public List<Player> players = new List<Player>();
+	private List<Player> players = new List<Player>();
 
 	void Awake(){
 
@@ -46,6 +46,10 @@ public class GameController : MonoBehaviour {
 
 		}
 		
+	}
+
+	public List<Player> GetPlayers(){
+		return players;
 	}
 
 	public struct Player{

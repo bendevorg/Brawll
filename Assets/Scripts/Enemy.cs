@@ -5,16 +5,19 @@ using UnityEngine;
 public class Enemy : LivingEntity {
 
 	ArtificialIntelligence artificialIntelligence;
+	Movement movementController;
 
 	void Start(){
 
+		movementController = GetComponent<Movement>();
 		artificialIntelligence = GetComponent<ArtificialIntelligence>();
 
 	}
 
 	void Update(){
 
-		artificialIntelligence.DecideNextMovement();
+		Vector2 direction = artificialIntelligence.DecideNextMovement();
+		movementController.Move(direction.x, direction.y, speed);
 
 	}
 
