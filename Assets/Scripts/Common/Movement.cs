@@ -17,6 +17,11 @@ public class Movement : MonoBehaviour {
 		rb.AddForce(movement * speed);
 	}
 
+	public void Dash(float inputHorizontal, float inputVertical, float force){
+		Vector3 dashForce = new Vector3(inputHorizontal, 0.0f, inputVertical) * force;
+		rb.AddForce(dashForce, ForceMode.Impulse);
+	}
+
 	void OnCollisionEnter(Collision collision) {
 		string tag = collision.gameObject.tag;
 		if (tag == "Enemy" || tag == "Player") {
