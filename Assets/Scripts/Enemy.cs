@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(Powerup))]
 public class Enemy : LivingEntity {
 
 	Movement movementController;
+	Powerup powerupController;
 
 	private List<Player> players = new List<Player>();
 	Target target;
@@ -27,6 +30,7 @@ public class Enemy : LivingEntity {
 		rb = GetComponent<Rigidbody>();
 		sphereCollider = GetComponent<SphereCollider>();
 		movementController = GetComponent<Movement>();
+		powerupController = GetComponent<Powerup>();
 
 		//	Se a sphere mudar de tamanho online mudar isso para um update
 		maxYDistanceToHit = sphereCollider.radius;

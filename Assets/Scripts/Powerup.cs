@@ -9,6 +9,10 @@ public class Powerup : MonoBehaviour {
 
 	string collectableTag = "Collectable";
 
+	public void UsePowerup(){
+		Debug.Log(actualPowerup);
+	}
+
 	void OnTriggerEnter(Collider other){
 
 		if (other.tag == collectableTag){
