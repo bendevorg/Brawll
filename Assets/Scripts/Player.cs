@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : LivingEntity {
 
-	public int speed;
 	private Movement movementController;
 
 	void Start(){
@@ -13,7 +12,7 @@ public class Player : MonoBehaviour {
 	
 	void FixedUpdate () {
 		float moveHorizontal = Input.GetAxisRaw("Horizontal");
-    float moveVertical = Input.GetAxisRaw("Vertical");
+    	float moveVertical = Input.GetAxisRaw("Vertical");
 
 		movementController.Move(moveHorizontal, moveVertical, speed);
 	}

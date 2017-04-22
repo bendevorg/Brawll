@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeController : MonoBehaviour {
+public class LivingEntity : MonoBehaviour {
 
 	[Range(1, 1000)]
-	public int life;
+	public int life = 1;
+	public int speed = 10;
 
 	void TakeDamage(int damage){
 
@@ -27,8 +28,11 @@ public class LifeController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 
+		Debug.Log("Olar");
+
 		if (other.tag == "Instakill"){
 
+			Debug.Log("Olar");
 			Death();
 
 		}
