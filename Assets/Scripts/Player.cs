@@ -26,7 +26,7 @@ public class Player : LivingEntity {
 		moveHorizontal = Input.GetAxisRaw("Horizontal");
 		moveVertical = Input.GetAxisRaw("Vertical");
 
-		willDash = Input.GetButtonDown("Fire3");
+		willDash = Input.GetButtonDown("Fire3") && CanDash();
 		usePowerup = Input.GetKeyDown(KeyCode.Z);
 
 		if (usePowerup) {
@@ -40,7 +40,7 @@ public class Player : LivingEntity {
 	void FixedUpdate () {
 
 		movementController.Move(moveHorizontal, moveVertical, speed);
-		if (willDash && CanDash()) {
+		if (willDash) {
 			UseDash();
 			movementController.Dash(moveHorizontal, moveVertical, dashForce);
 		}
