@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour {
 	}
 
 	public void Dash(float inputHorizontal, float inputVertical, float force){
-		Vector3 dashForce = new Vector3(inputHorizontal, 0.0f, inputVertical) * force;
+		Vector3 dashForce = new Vector3(inputHorizontal, 0.0f, inputVertical).normalized * force;
 		rb.AddForce(dashForce, ForceMode.Impulse);
 	}
 

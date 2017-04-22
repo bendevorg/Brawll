@@ -236,7 +236,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4771103353926978, guid: 3f15a2a40e67c4590bf2d35bc7d5c294, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -5.55726
+      value: -12.91
       objectReference: {fileID: 0}
     - target: {fileID: 4771103353926978, guid: 3f15a2a40e67c4590bf2d35bc7d5c294, type: 2}
       propertyPath: m_LocalRotation.x
@@ -342,16 +342,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114489376590728420, guid: 4c7c9529fe33345f8add92d75ff23b72,
-        type: 2}
-      propertyPath: force
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114817806229865582, guid: 4c7c9529fe33345f8add92d75ff23b72,
-        type: 2}
-      propertyPath: dashForce
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
   m_IsPrefabParent: 0
@@ -404,7 +394,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1513863592562324, guid: 330defe2bfd7745eeba5143d3632db9e, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 330defe2bfd7745eeba5143d3632db9e, type: 2}
