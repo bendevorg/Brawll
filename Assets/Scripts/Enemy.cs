@@ -16,7 +16,7 @@ public class Enemy : LivingEntity {
 
 	void Update(){
 
-		Vector2 direction = artificialIntelligence.DecideNextMovement();
+		Vector2 direction = artificialIntelligence.DecideNextMovement(speed);
 		movementController.Move(direction.x, direction.y, speed);
 
 	}
