@@ -4,17 +4,32 @@ using UnityEngine;
 
 public class ArtificialIntelligence : MonoBehaviour {
 
+	Movement movementController;
+
 	private List<Player> players = new List<Player>();
 	Target target;
 
 	Vector2 input = Vector2.zero;
 
+	SphereCollider sphereCollider;
+
 	Rigidbody rb;
+
+	enum State {Engage, Dash};
+	State enemyState;
+
+	float maxYDistanceToHit;
+	public float minDistanceToDash = 10f;
 
 	// Use this for initialization
 	void Start () {
 
 		rb = GetComponent<Rigidbody>();
+		sphereCollider = GetComponent<SphereCollider>();
+		movementController = GetComponent<Movement>();
+
+		//	Se a sphere mudar de tamanho online mudar isso para um update
+		maxYDistanceToHit = sphereCollider.radius;
 
 		List<GameObject> livingEntities = new List<GameObject>();
 		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Player"));
@@ -29,17 +44,50 @@ public class ArtificialIntelligence : MonoBehaviour {
 		
 	}
 
-	public Vector2 DecideNextMovement(float speed){
+	public void DecideNextMovement(int speed, int dashForce){
 
 		DecideTarget();
 
+		DecideState();
+
+		//	Decidindo a direção que vamos
 		Vector3 finalTargetPos = target.position + (target.velocity);
+		//Vector3 direction = (finalTargetPos - transform.position);
 
-		//Vector3 direction = (finalTargetPos - transform.position).normalized;
-		Vector3 direction = (target.position - transform.position).normalized;
-		Debug.DrawLine (transform.position, transform.position + direction * 10, Color.red, Mathf.Infinity);
-		return new Vector2(direction.x, direction.z);
+		Vector3 direction = (target.position - transform.position);
 
+		switch (enemyState){
+
+			case State.Dash:
+
+				movementController.Dash(direction.x, direction.z, dashForce);
+				break;
+
+			case State.Engage:
+
+				Debug.DrawLine (transform.position, transform.position + direction * 10, Color.red, Mathf.Infinity);
+				movementController.Move(direction.x, direction.z, speed);
+				break;
+
+		}
+
+
+	}
+	
+	public void DecideState(){
+
+		if (target.distance <= minDistanceToDash){
+
+			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit) {
+
+				enemyState = State.Dash;
+				return;
+
+			}
+		}
+
+		enemyState = State.Engage;
+		return;
 
 	}
 
@@ -60,20 +108,7 @@ public class ArtificialIntelligence : MonoBehaviour {
 				target.velocity = player.GetVelocity();
 
 			}
-
 		}
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		foreach (Player player in players){
-
-			player.UpdatePlayerPosition();
-
-		}
-		
 	}
 
 	public void RemoveEntity(GameObject livingEntity){
@@ -86,9 +121,7 @@ public class ArtificialIntelligence : MonoBehaviour {
 				return;
 
 			}
-
 		}
-
 	}
 
 	public struct Player{
