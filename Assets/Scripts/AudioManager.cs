@@ -12,6 +12,9 @@ public class AudioManager : MonoBehaviour {
 
 	AudioSource audioSource;
 
+	bool canPlayImpact = true;
+	float timeToPlayImpact = 0f;
+
 	void Awake() {
 
 		if(instance != null) {
@@ -29,6 +32,10 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	void Update() {
+		if(!canPlayImpact) {
+			canPlayImpact = Time.time >= timeToPlayImpact;
+		}
+		
 		if (playerTransform != null) {
 			audioListener.position = playerTransform.position;
 		}
@@ -42,6 +49,15 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public void PlaySound(string clipName , Vector3 position) {
-		PlaySound(soundLibrary.GetClipFromName(clipName), position);
+		if (clipName == "Impact") {
+			if (canPlayImpact) {
+				timeToPlayImpact = Time.time + 0.05f;
+				canPlayImpact = false;
+				PlaySound(soundLibrary.GetClipFromName(clipName), position);
+			}
+		} else {
+			PlaySound(soundLibrary.GetClipFromName(clipName), position);
+		}
+
 	}
 }

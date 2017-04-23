@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundGroups:
-  - groupID: Impact
+  - groupID: Impact Wall
     group:
     - {fileID: 8300000, guid: d765e1be64a3947ee8d9c223b05e0496, type: 3}
     - {fileID: 8300000, guid: 3140d7471fc154191bb979d5efdccfb0, type: 3}
@@ -203,3 +203,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 114d6d2de4c894f94a2165b6c87344b6, type: 3}
     - {fileID: 8300000, guid: 2af014a211a6d4f959d8a29563503bf2, type: 3}
     - {fileID: 8300000, guid: b2f1a814e8e3f4fbda0d8f215d1a8457, type: 3}
+  - groupID: Impact
+    group:
+    - {fileID: 8300000, guid: d2da7c2b79ffb424d92ddb4bbb9c3213, type: 3}
+    - {fileID: 8300000, guid: 20e1da184ba514050a4cb2d7c5bd4c32, type: 3}
+    - {fileID: 8300000, guid: b8e0d8c3f47264bb29d28231982f2329, type: 3}

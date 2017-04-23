@@ -24,19 +24,24 @@ public class Movement : MonoBehaviour {
 		AudioManager.instance.PlaySound("Dash", transform.position);
 	}
 
+	void Knockback(Collision col) {
+		Vector3 knockback = col.contacts[0].normal * col.relativeVelocity.magnitude;
+		Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
+		rb.AddForce(knockbackClamped, ForceMode.Impulse);
+
+		Instantiate(hitEffect, col.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, col.relativeVelocity));
+	}
+
 	void OnCollisionEnter(Collision collision) {
 		string tag = collision.gameObject.tag;
 
-		if (tag == "Enemy" || tag == "Player" || tag == "Obstacle") {
-
-			Vector3 knockback = collision.contacts[0].normal * collision.relativeVelocity.magnitude;
-			Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
-			rb.AddForce(knockbackClamped, ForceMode.Impulse);
-
-			Instantiate(hitEffect, collision.contacts[0].point, Quaternion. FromToRotation(Vector3.forward, collision.relativeVelocity));
-
+		if (tag == "Enemy" || tag == "Player") {
+			Knockback(collision);
 			AudioManager.instance.PlaySound("Impact", Vector3.zero);
-			
+
+		} else if (tag == "Obstacle") {
+			Knockback(collision);
+			AudioManager.instance.PlaySound("Impact Wall", Vector3.zero);
 		}
 	}
 }
