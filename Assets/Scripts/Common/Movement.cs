@@ -6,10 +6,19 @@ using UnityEngine;
 public class Movement : MonoBehaviour {
 
 	public ParticleSystem hitEffect;
+	public ParticleSystem dashEffect;
 	private Rigidbody rb;
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
+	}
+
+	void Update(){
+		print(rb.velocity);
+		print(rb.velocity.magnitude);
+		if (rb.velocity.magnitude > 0.1f) {
+			transform.forward = rb.velocity.normalized;
+		}
 	}
 
 	public void Move(float inputHorizontal, float inputVertical, float speed) {
@@ -19,6 +28,16 @@ public class Movement : MonoBehaviour {
 	}
 
 	public void Dash(float inputHorizontal, float inputVertical, float force){
+		Vector3 dashOffset = new Vector3(0, 0, 0.6f);
+
+		GameObject dashGameObject = Instantiate(dashEffect.gameObject, transform.position, Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y - 180, transform.localEulerAngles.z)) as GameObject;
+
+		dashGameObject.transform.parent = transform;
+		dashGameObject.transform.localScale = Vector3.one;
+		dashGameObject.transform.localPosition = dashOffset;
+
+		Destroy(dashGameObject, 2f);
+		
 		Vector3 dashForce = new Vector3(inputHorizontal, 0.0f, inputVertical).normalized * force;
 		rb.AddForce(dashForce, ForceMode.Impulse);
 		AudioManager.instance.PlaySound("Dash");

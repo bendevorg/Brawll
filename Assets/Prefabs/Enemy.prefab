@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1336699087156928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1, z: -9.74}
+  m_LocalPosition: {x: 0, y: 1, z: -9.74}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 32
   m_CollisionDetection: 2
 --- !u!114 &114103228394638384
 MonoBehaviour:
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 198434888180948894, guid: 9e1db3d06f5664f18bb2b38623c8b177,
     type: 2}
+  dashEffect: {fileID: 0}
 --- !u!135 &135467198191525856
 SphereCollider:
   m_ObjectHideFlags: 1
