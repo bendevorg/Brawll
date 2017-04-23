@@ -52,7 +52,7 @@ public class LivingEntity : MonoBehaviour {
 	}
 
 	void Death(){
-		
+		CameraShaker.Shake(0.3f, 0.3f);
 		AudioManager.instance.PlaySound("Death", transform.position);
 
 		if (OnEntityDeath != null){
