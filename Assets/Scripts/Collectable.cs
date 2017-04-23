@@ -47,7 +47,9 @@ public class Collectable : MonoBehaviour {
 
 		}
 
-		transform.position = new Vector3(Random.Range(-10.5f, 10.5f), 1f, Random.Range(-10.5f, 10.5f));
+		Vector3 spawnPosition = new Vector3(Random.Range(-10.5f, 10.5f), 1f, Random.Range(-10.5f, 10.5f));
+
+		transform.position = Vector3.ClampMagnitude(spawnPosition, new Vector3(7.5f, 0, 7.5f).magnitude);
 
 		renderer.enabled = true;
 		collider.enabled = true;
