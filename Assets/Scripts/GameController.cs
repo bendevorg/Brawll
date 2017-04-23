@@ -10,7 +10,12 @@ public class GameController : MonoBehaviour {
 	public bool trueMode = true;
 	int maxDifficulty = 5;
 
-	public GameObject UI;
+	public GameObject restartUI;
+	public GameObject nextUI;
+	public GameObject endUI;
+
+	bool storyMode = false;
+	bool gameOver = false;
 
 	void Awake(){
 
@@ -40,13 +45,52 @@ public class GameController : MonoBehaviour {
 		
 	}
 
-	public void PlayerDied(){
+	public void PlayerDied(string tag){
 
-		GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
-		
-		if (player.Length <= 1){
+		if (!gameOver){
 
-			UI.SetActive(true);
+			GameObject[] entity = GameObject.FindGameObjectsWithTag(tag);
+
+			if (tag == "Player"){
+
+				if (entity.Length <= 1){
+
+					gameOver = true;
+					restartUI.SetActive(true);
+					return;
+
+				}
+
+			} else {
+
+				if (entity.Length <= 1){
+
+					gameOver = true;
+
+					if (storyMode){
+
+						if (difficulty >= maxDifficulty){
+
+							endUI.SetActive(true);
+							difficulty = 1;
+
+							return;
+
+						}
+
+						difficulty++;
+						nextUI.SetActive(true);
+						Invoke("StartGame", 10);
+						return; 
+
+					} else {
+
+						endUI.SetActive(true);
+						return;
+
+					}
+				}
+			}
 
 		}
 	}
@@ -56,20 +100,40 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void StartGame(){
+
+		gameOver = false;
+		restartUI.SetActive(false);
+		nextUI.SetActive(false);
+		endUI.SetActive(false);
+
 		Application.LoadLevel(1);
 	}
 
 	public void RestartGame(){
 
-		UI.SetActive(false);
+		gameOver = false;
+		restartUI.SetActive(false);
+		nextUI.SetActive(false);
+		endUI.SetActive(false);
+
 		Time.timeScale = 1;
 		Application.LoadLevel(0);
 		Destroy(gameObject);
 	}
 
 	public void SetDifficulty(int _difficulty){
-		_difficulty  += 1;
-		difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
+
+		if (difficulty == 0){
+
+			storyMode = true;
+			difficulty = 1;
+
+		} else {
+
+			storyMode = false;
+			difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
+
+		}
 	}
 
 	public void SetTrueMode(){
