@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4516391094403222}
   - component: {fileID: 114574303831398634}
+  - component: {fileID: 114073964760963430}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -476,6 +477,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114073964760963430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392501169721586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2143d395e9c4454b3de84519da0ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
 --- !u!114 &114077041833306874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -863,10 +876,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 0
   difficulty: 1
-  trueMode: 1
+  trueMode: 0
   restartUI: {fileID: 1820317885619042}
   nextUI: {fileID: 1676937837272258}
   endUI: {fileID: 1453438070359682}
+  playEndless: 0
+  waves:
+  - amountOfEnemies: 7
+    difficulty: 1
+    minSpawnTime: 1
+    maxSpawnTime: 2
+  - amountOfEnemies: 5
+    difficulty: 1
+    minSpawnTime: 10
+    maxSpawnTime: 30
+  - amountOfEnemies: 10
+    difficulty: 2
+    minSpawnTime: 25
+    maxSpawnTime: 35
+  - amountOfEnemies: 6
+    difficulty: 2
+    minSpawnTime: 10
+    maxSpawnTime: 25
+  - amountOfEnemies: 10
+    difficulty: 3
+    minSpawnTime: 40
+    maxSpawnTime: 60
+  - amountOfEnemies: 5
+    difficulty: 3
+    minSpawnTime: 20
+    maxSpawnTime: 30
+  - amountOfEnemies: 12
+    difficulty: 4
+    minSpawnTime: 40
+    maxSpawnTime: 60
+  - amountOfEnemies: 3
+    difficulty: 4
+    minSpawnTime: 5
+    maxSpawnTime: 10
+  - amountOfEnemies: 15
+    difficulty: 5
+    minSpawnTime: 30
+    maxSpawnTime: 50
+  - amountOfEnemies: 5
+    difficulty: 4
+    minSpawnTime: 10
+    maxSpawnTime: 20
+  minSpawnTime: 0
+  maxSpawnTime: 0
 --- !u!114 &114678860564462420
 MonoBehaviour:
   m_ObjectHideFlags: 1

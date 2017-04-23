@@ -108,6 +108,11 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &235853541 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970,
+    type: 2}
+  m_PrefabInternal: {fileID: 346797664}
 --- !u!1001 &346797664
 Prefab:
   m_ObjectHideFlags: 0
@@ -150,6 +155,34 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &586100488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 586100489}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &586100489
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 586100488}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 235853541}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &700923525 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114574303831398634, guid: 2579420d8c66c4866868b0c6ffbef970,

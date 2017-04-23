@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Spawner))]
 public class GameController : MonoBehaviour {
 
 	public static GameController gameController = null;
@@ -10,12 +11,26 @@ public class GameController : MonoBehaviour {
 	public GameMode gameMode = GameMode.Campaign;
 
 	public int difficulty = 0;
+	[HideInInspector]
 	public bool trueMode = false;
 	int maxDifficulty = 5;
 
 	public GameObject restartUI;
 	public GameObject nextUI;
 	public GameObject endUI;
+
+	//	Endless variables
+	Spawner spawner;
+	[HideInInspector]
+	public bool playEndless = false;
+
+	public Wave[] waves;
+	int amountOfEnemies = 0;
+	[HideInInspector]
+	public float minSpawnTime = 0;
+	[HideInInspector]
+	public float maxSpawnTime = 0;
+	int wave = 0;
 
 	bool gameOver = false;
 
@@ -32,11 +47,12 @@ public class GameController : MonoBehaviour {
 
 		}
 
+		spawner = GetComponent<Spawner>();
+
 	}
 
 	// Update is called once per frame
 	void Update () {
-
 
 		//	TODO: REMOVER ISSO
 		if (Input.GetKeyDown(KeyCode.Space)){
@@ -60,6 +76,7 @@ public class GameController : MonoBehaviour {
 				if (entity.Length <= 1){
 
 					gameOver = true;
+					spawner.StopSpawning();
 					restartUI.SetActive(true);
 					return;
 
@@ -69,33 +86,43 @@ public class GameController : MonoBehaviour {
 
 				if (entity.Length <= 1){
 
-					gameOver = true;
+					if (gameMode == GameMode.Endless){
 
-					if (gameMode == GameMode.Campaign){
+						amountOfEnemies--;
 
-						if (difficulty >= maxDifficulty){
-
-							endUI.SetActive(true);
-							difficulty = 1;
-
-							return;
-
-						}
-
-						difficulty++;
-						nextUI.SetActive(true);
-						StartCoroutine(NextLevel());
-						return; 
+						if (amountOfEnemies <= 0){
+							NextWave();
+						}		
 
 					} else {
 
-						endUI.SetActive(true);
-						return;
+						gameOver = true;
 
+						if (gameMode == GameMode.Campaign){
+
+							if (difficulty >= maxDifficulty){
+
+								endUI.SetActive(true);
+								difficulty = 1;
+
+								return;
+
+							}
+
+							difficulty++;
+							nextUI.SetActive(true);
+							StartCoroutine(NextLevel());
+							return; 
+
+						} else {
+
+							endUI.SetActive(true);
+							return;
+
+						}
 					}
 				}
 			}
-
 		}
 	}
 
@@ -107,13 +134,21 @@ public class GameController : MonoBehaviour {
 
 		if (firstStart){
 
-			if (gameMode == GameMode.Campaign || gameMode == GameMode.Endless){
+			if (gameMode == GameMode.Campaign){
 
 				difficulty = 1;
+				playEndless = false;
 
+			} else if (gameMode == GameMode.Endless) {
+				
+				difficulty = 1;
+				wave = 0;
+				playEndless = true;
+				spawner.StartSpawning();
+				
 			} else if (gameMode == GameMode.SingleMatch){
 
-				//	Espera aí 
+				playEndless = false;
 
 			}
 
@@ -128,6 +163,9 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void RestartGame(){
+
+		playEndless = false;
+		spawner.StopSpawning();
 
 		gameOver = false;
 		restartUI.SetActive(false);
@@ -152,7 +190,24 @@ public class GameController : MonoBehaviour {
 		difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
 
 	}
+	
+	public void NextWave(){
 
+		if (wave >= waves.Length){
+
+			wave = waves.Length - 1;
+
+		}
+
+		amountOfEnemies = waves[wave].amountOfEnemies;
+		difficulty = waves[wave].difficulty;
+		minSpawnTime = waves[wave].minSpawnTime;
+		maxSpawnTime = waves[wave].maxSpawnTime;
+
+		wave++;
+
+	}
+	
 	IEnumerator NextLevel(){
 
 		float nextLevelTime = 7f + Time.time;
@@ -164,6 +219,16 @@ public class GameController : MonoBehaviour {
 		}
 
 		StartGame(false);
+
+	}
+
+	[System.SerializableAttribute]
+	public struct Wave{
+
+		public int amountOfEnemies;
+		public int difficulty;
+		public float minSpawnTime;
+		public float maxSpawnTime;
 
 	}
 
