@@ -9,6 +9,7 @@ TagManager:
   - Collectable
   - Ground
   - Obstacle
+  - UI
   layers:
   - Default
   - TransparentFX

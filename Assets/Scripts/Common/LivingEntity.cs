@@ -59,6 +59,7 @@ public class LivingEntity : MonoBehaviour {
 			OnEntityDeath(gameObject);
 		}
 
+		GameController.gameController.PlayerDied();
 		GameObject.Destroy(gameObject);
 
 	}

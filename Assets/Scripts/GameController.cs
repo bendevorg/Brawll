@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour {
 	public bool trueMode = true;
 	int maxDifficulty = 5;
 
+	public GameObject UI;
+
 	void Awake(){
 
 		if(gameController != null){
@@ -32,10 +34,21 @@ public class GameController : MonoBehaviour {
 			RestartGame();
 		}
 
-		if (Input.GetKeyDown(KeyCode.P)){
+		if (Input.GetButton("Submit")){
 			PauseGame();
 		}
 		
+	}
+
+	public void PlayerDied(){
+
+		GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+		
+		if (player.Length <= 1){
+
+			UI.SetActive(true);
+
+		}
 	}
 
 	public void PauseGame(){
@@ -46,7 +59,10 @@ public class GameController : MonoBehaviour {
 		Application.LoadLevel(1);
 	}
 
-	void RestartGame(){
+	public void RestartGame(){
+
+		UI.SetActive(false);
+		Time.timeScale = 1;
 		Application.LoadLevel(0);
 		Destroy(gameObject);
 	}

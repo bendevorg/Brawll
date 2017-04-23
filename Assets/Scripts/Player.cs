@@ -13,7 +13,16 @@ public class Player : LivingEntity {
 	private bool willDash;
 	private bool usePowerup;
 
+	public bool player1;
+
+	string[] player1Inputs = {"Horizontal", "Vertical", "Fire2", "Fire1"};
+	string[] player2Inputs = {"HorizontalP2", "VerticalP2", "Fire2P2", "Fire1P2"};
+
+	string[] actualPlayerInputs;
+
 	void Start(){
+
+		actualPlayerInputs = player1?player1Inputs:player2Inputs;
 
 		movementController = GetComponent<Movement>();
 		powerupController = GetComponent<Powerup>();
@@ -23,11 +32,11 @@ public class Player : LivingEntity {
 	public override void Update() {
 
 		base.Update();
-		moveHorizontal = Input.GetAxisRaw("Horizontal");
-		moveVertical = Input.GetAxisRaw("Vertical");
+		moveHorizontal = Input.GetAxisRaw(actualPlayerInputs[0]);
+		moveVertical = Input.GetAxisRaw(actualPlayerInputs[1]);
 
-		willDash = Input.GetButtonDown("Fire2") && CanDash();
-		usePowerup = Input.GetButtonDown("Fire1");
+		willDash = Input.GetButtonDown(actualPlayerInputs[2]) && CanDash();
+		usePowerup = Input.GetButtonDown(actualPlayerInputs[3]);
 
 		if (usePowerup) {
 
