@@ -156,18 +156,13 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 346797664}
   m_Script: {fileID: 11500000, guid: f27ff5a4fada84c48b5503f492fa28a3, type: 3}
---- !u!1001 &770417566
+--- !u!1001 &1064412139
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Options.m_Options.Array.size
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 224302895988171504, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -258,12 +253,12 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114781072889529864, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
+    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
         type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 700923525}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
+    - target: {fileID: 114066428246870950, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
         type: 2}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -273,46 +268,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 700923525}
-    - target: {fileID: 114550694053491910, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Text
-      value: Mode
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Options.m_Options.Array.data[5].m_Text
-      value: Very Hard
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Options.m_Options.Array.data[4].m_Text
-      value: Hard
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Options.m_Options.Array.data[3].m_Text
-      value: Medium
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Options.m_Options.Array.data[2].m_Text
-      value: Easy
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Options.m_Options.Array.data[1].m_Text
-      value: Very Easy
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Options.m_Options.Array.data[0].m_Text
-      value: Arcade
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473848104759030, guid: 4a393a6239d9842aaa636a6fcf4b6d09,
-        type: 2}
-      propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4a393a6239d9842aaa636a6fcf4b6d09, type: 2}
   m_IsPrefabParent: 0

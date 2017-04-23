@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114215243400685430}
   - component: {fileID: 114678860564462420}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: MenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114724934749059316}
   - component: {fileID: 114359468302384160}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 114685249928053040}
   - component: {fileID: 114741373706035484}
   m_Layer: 5
-  m_Name: Button
+  m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 114007713946475950}
   - component: {fileID: 114728419609542514}
   m_Layer: 5
-  m_Name: Button
+  m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -861,6 +861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27ff5a4fada84c48b5503f492fa28a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMode: 0
   difficulty: 1
   trueMode: 1
   restartUI: {fileID: 1820317885619042}
@@ -1013,7 +1014,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114574303831398634}
         m_MethodName: StartGame
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1086,7 +1087,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114574303831398634}
         m_MethodName: StartGame
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1420,7 +1421,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 16.81247, y: -42.27}
-  m_SizeDelta: {x: 10000, y: 1366}
+  m_SizeDelta: {x: 600, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224079119927631014
 RectTransform:
@@ -1480,7 +1481,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 16.8125, y: 21}
-  m_SizeDelta: {x: 10000, y: 1366}
+  m_SizeDelta: {x: 500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224383289842649764
 RectTransform:
