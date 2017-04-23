@@ -14,8 +14,6 @@ public class Movement : MonoBehaviour {
 	}
 
 	void Update(){
-		print(rb.velocity);
-		print(rb.velocity.magnitude);
 		if (rb.velocity.magnitude > 0.1f) {
 			transform.forward = rb.velocity.normalized;
 		}

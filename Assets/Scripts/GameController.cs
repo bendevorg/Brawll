@@ -31,10 +31,11 @@ using UnityEngine;
 	public float maxSpawnTime = 0;
 	[HideInInspector]
 	public bool newWaveBegun = false;
-
 	int enemiesRemaining = 0;
-
 	int wave = 0;
+
+	//	Single match variables
+	int amountOfEnemiesSingleMatch = 0;
 
 	[HideInInspector]
 	public bool gameOver = false;
@@ -146,22 +147,27 @@ using UnityEngine;
 		DeactivateAllUI();
 		gameOver = false;
 
-		if (firstStart || gameMode == GameMode.Endless){
+		if (!(gameMode == GameMode.Campaign)){
 
-			if (gameMode == GameMode.Campaign){
+			if (gameMode == GameMode.Endless){
 
-				difficulty = 1;
-
-			} else if (gameMode == GameMode.Endless) {
-				
 				difficulty = 1;
 				wave = 0;
 
 				NextWave();
 
 				endlessUI.SetActive(true);
-				
+
+			} else if (gameMode == GameMode.SingleMatch){
+
+				SetSingleMatch();
+
 			}
+
+		} else if (firstStart){
+
+			difficulty = 1;
+
 		}
 
 		Application.LoadLevel(1);
@@ -200,8 +206,8 @@ using UnityEngine;
 
 	}
 
-	public void SetEnemies(int _amountOfEnemiesToSpawn){
-		amountOfEnemiesToSpawn = _amountOfEnemiesToSpawn;
+	public void SetEnemies(int _amountOfEnemiesSingleMatch){
+		amountOfEnemiesSingleMatch = _amountOfEnemiesSingleMatch;
 	}
 	
 	public void NextWave(){
@@ -237,6 +243,12 @@ using UnityEngine;
 		}
 
 		StartGame(false);
+
+	}
+
+	public void SetSingleMatch(){
+
+		amountOfEnemiesToSpawn = amountOfEnemiesSingleMatch;
 
 	}
 

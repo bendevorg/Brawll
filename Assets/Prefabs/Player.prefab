@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1285769892164158}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 10.01}
+  m_LocalPosition: {x: 0.48, y: 0.99, z: 10.01}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -113,7 +113,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 198434888180948894, guid: 9e1db3d06f5664f18bb2b38623c8b177,
     type: 2}
-  dashEffect: {fileID: 0}
+  dashEffect: {fileID: 198202687423670196, guid: 01cb2c6655e2c453085cdf729ecc0abc,
+    type: 2}
 --- !u!114 &114561085920731320
 MonoBehaviour:
   m_ObjectHideFlags: 1

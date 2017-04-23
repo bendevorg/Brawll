@@ -46,6 +46,13 @@ public class Enemy : LivingEntity {
 	// Use this for initialization
 	void Start () {
 
+		rb = GetComponent<Rigidbody>();
+		sphereCollider = GetComponent<SphereCollider>();
+		ground = GameObject.FindGameObjectWithTag("Ground").transform;
+		movementController = GetComponent<Movement>();
+		powerupController = GetComponent<Powerup>();
+		rend = GetComponent<Renderer>();
+
 		difficulty = GameController.gameController.difficulty;
 		decisionHandicap = GameController.gameController.trueMode;
 
@@ -61,13 +68,6 @@ public class Enemy : LivingEntity {
 		speed /=  handicap;
 		dashForce /= handicap;
 		minDistanceToDash += handicap;
-
-		rb = GetComponent<Rigidbody>();
-		sphereCollider = GetComponent<SphereCollider>();
-		ground = GameObject.FindGameObjectWithTag("Ground").transform;
-		movementController = GetComponent<Movement>();
-		powerupController = GetComponent<Powerup>();
-		rend = GetComponent<Renderer>();
 
 		if (difficulty - 1 <= enemyColors.Length - 1){
 			rend.material.SetColor("_Color", enemyColors[difficulty - 1]);
