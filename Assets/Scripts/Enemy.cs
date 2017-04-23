@@ -22,6 +22,9 @@ public class Enemy : LivingEntity {
 
 	Rigidbody rb;
 
+	[RangeAttribute(1, 5)]
+	public int difficulty;
+
 	enum State {Engage, Dash, Desengage, Powerup};
 	State enemyState;
 
@@ -31,6 +34,10 @@ public class Enemy : LivingEntity {
 
 	// Use this for initialization
 	void Start () {
+
+		//	Easy 10% chance Zhonyas, 20% chance insta kill, 30% chance dash, 20% speed, 50% dash force
+
+
 
 		rb = GetComponent<Rigidbody>();
 		sphereCollider = GetComponent<SphereCollider>();
@@ -101,8 +108,8 @@ public class Enemy : LivingEntity {
 		//	Decidindo a direção que vamos
 		Vector3 finalTargetPos = target.position + (target.velocity);
 
-		Vector3 direction = (finalTargetPos - transform.position);
-		//Vector3 direction = (target.position - transform.position);
+		Vector3 direction = easyMode?(target.position - transform.position):(finalTargetPos - transform.position);
+
 		input = new Vector2(direction.x, direction.z);
 
 	}
