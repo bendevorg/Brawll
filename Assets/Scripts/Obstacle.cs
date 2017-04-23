@@ -62,7 +62,7 @@ public class Obstacle : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 
-		AudioManager.instance.PlaySound("Impact Wall", Vector3.zero);
+		AudioManager.instance.PlaySound("Impact Wall");
 		DestroyObstacle(other.gameObject);
 		return;
 

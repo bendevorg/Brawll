@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour {
 	public void Dash(float inputHorizontal, float inputVertical, float force){
 		Vector3 dashForce = new Vector3(inputHorizontal, 0.0f, inputVertical).normalized * force;
 		rb.AddForce(dashForce, ForceMode.Impulse);
-		AudioManager.instance.PlaySound("Dash", transform.position);
+		AudioManager.instance.PlaySound("Dash");
 	}
 
 	void Knockback(Collision col) {
@@ -38,11 +38,11 @@ public class Movement : MonoBehaviour {
 
 		if (tag == "Enemy" || tag == "Player") {
 			Knockback(collision);
-			AudioManager.instance.PlaySound("Impact", Vector3.zero);
+			AudioManager.instance.PlaySound("Impact");
 
 		} else if (tag == "Obstacle") {
 			Knockback(collision);
-			AudioManager.instance.PlaySound("Impact Wall", Vector3.zero);
+			AudioManager.instance.PlaySound("Impact Wall");
 		}
 	}
 }

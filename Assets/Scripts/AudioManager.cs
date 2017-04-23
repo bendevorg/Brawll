@@ -41,23 +41,22 @@ public class AudioManager : MonoBehaviour {
 		}
 	}
 
-	public void PlaySound(AudioClip clip, Vector3 position) {
+	public void PlaySound(AudioClip clip) {
 		if(clip != null) {
 			//audioSource.PlayClipAtPoint(clip, position); 
-			audioSource.PlayOneShot(clip, 1f);
+			audioSource.PlayOneShot(clip, 3f);
 		}
 	}
 
-	public void PlaySound(string clipName , Vector3 position) {
+	public void PlaySound(string clipName) {
 		if (clipName == "Impact") {
 			if (canPlayImpact) {
 				timeToPlayImpact = Time.time + 0.05f;
 				canPlayImpact = false;
-				PlaySound(soundLibrary.GetClipFromName(clipName), position);
+				PlaySound(soundLibrary.GetClipFromName(clipName));
 			}
 		} else {
-			PlaySound(soundLibrary.GetClipFromName(clipName), position);
+			PlaySound(soundLibrary.GetClipFromName(clipName));
 		}
-
 	}
 }
