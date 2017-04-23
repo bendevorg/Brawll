@@ -32,3 +32,6 @@ sysinfo.txt
 
 # Visual Code
 .vscode
+
+# OS generated
+.DS_Store
