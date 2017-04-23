@@ -25,6 +25,7 @@ public class Movement : MonoBehaviour {
 	}
 
 	void Knockback(Collision col) {
+		CameraShaker.Shake(0.2f, 0.2f);
 		Vector3 knockback = col.contacts[0].normal * col.relativeVelocity.magnitude;
 		Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
 		rb.AddForce(knockbackClamped, ForceMode.Impulse);
