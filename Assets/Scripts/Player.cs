@@ -54,4 +54,11 @@ public class Player : LivingEntity {
 			movementController.Dash(moveHorizontal, moveVertical, dashForce * powerupController.forceMultiplier);
 		}
 	}
+
+	bool CanDash(){
+
+		return IsOffCooldown() && !(powerupController.GetState() == (int)Powerup.Powerups.Zhonya);
+
+	}
+
 }

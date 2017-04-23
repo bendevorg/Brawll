@@ -20,14 +20,12 @@ public class LivingEntity : MonoBehaviour {
 
 		if (!canDash){
 
-			//Debug.Log(timeToDash);
-
 			canDash = Time.time >= timeToDash;
 
 		}
 	}
 
-	public bool CanDash(){
+	public bool IsOffCooldown(){
 
 		return canDash;
 

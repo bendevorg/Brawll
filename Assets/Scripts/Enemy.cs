@@ -233,6 +233,12 @@ public class Enemy : LivingEntity {
 		}
 	}
 
+	bool CanDash(){
+
+		return IsOffCooldown() && !(powerupController.GetState() == (int)Powerup.Powerups.Zhonya);
+
+	}
+
 	public struct Player{
 
 		GameObject entity;
