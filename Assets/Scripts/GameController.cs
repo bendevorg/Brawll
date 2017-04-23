@@ -6,15 +6,17 @@ public class GameController : MonoBehaviour {
 
 	public static GameController gameController = null;
 
-	public int difficulty = 1;
-	public bool trueMode = true;
+	public enum GameMode {Campaign = 0, Endless = 1, SingleMatch = 2};
+	public GameMode gameMode = GameMode.Campaign;
+
+	public int difficulty = 0;
+	public bool trueMode = false;
 	int maxDifficulty = 5;
 
 	public GameObject restartUI;
 	public GameObject nextUI;
 	public GameObject endUI;
 
-	bool storyMode = false;
 	bool gameOver = false;
 
 	void Awake(){
@@ -35,6 +37,8 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
+		//	TODO: REMOVER ISSO
 		if (Input.GetKeyDown(KeyCode.Space)){
 			RestartGame();
 		}
@@ -67,7 +71,7 @@ public class GameController : MonoBehaviour {
 
 					gameOver = true;
 
-					if (storyMode){
+					if (gameMode == GameMode.Campaign){
 
 						if (difficulty >= maxDifficulty){
 
@@ -80,7 +84,7 @@ public class GameController : MonoBehaviour {
 
 						difficulty++;
 						nextUI.SetActive(true);
-						Invoke("StartGame", 10);
+						StartCoroutine(NextLevel());
 						return; 
 
 					} else {
@@ -99,7 +103,21 @@ public class GameController : MonoBehaviour {
 		Time.timeScale = 1 - Time.timeScale;
 	}
 
-	public void StartGame(){
+	public void StartGame(bool firstStart){
+
+		if (firstStart){
+
+			if (gameMode == GameMode.Campaign || gameMode == GameMode.Endless){
+
+				difficulty = 1;
+
+			} else if (gameMode == GameMode.SingleMatch){
+
+				//	Espera aí 
+
+			}
+
+		}
 
 		gameOver = false;
 		restartUI.SetActive(false);
@@ -121,24 +139,32 @@ public class GameController : MonoBehaviour {
 		Destroy(gameObject);
 	}
 
-	public void SetDifficulty(int _difficulty){
+	public void SetGamemode(int _gameMode){
 
-		if (_difficulty == 0){
-
-			storyMode = true;
-			difficulty = 1;
-
-		} else {
-
-			storyMode = false;
-			difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
-
-		}
+		gameMode = (GameMode)_gameMode;
 
 	}
 
-	public void SetTrueMode(){
-		trueMode = !trueMode;
+	public void SetDifficulty(int _difficulty){
+
+		_difficulty += 1;
+
+		difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
+
+	}
+
+	IEnumerator NextLevel(){
+
+		float nextLevelTime = 7f + Time.time;
+
+		while (nextLevelTime > Time.time){
+
+			yield return null;
+
+		}
+
+		StartGame(false);
+
 	}
 
 }
