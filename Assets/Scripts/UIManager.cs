@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour {
 	void Update () {
 
 		sliderValue.text = slider.value.ToString();
+
+		GameController.gameController.SetEnemies((int)slider.value);
 		
 	}
 

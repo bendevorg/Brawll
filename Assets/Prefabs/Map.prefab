@@ -498,6 +498,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4106472978932010}
+  - component: {fileID: 114562934310926384}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -2354,6 +2355,18 @@ MonoBehaviour:
   - {r: 0.972549, g: 0.38431373, b: 0.38431373, a: 1}
   breakEffect: {fileID: 1997241327006388, guid: db9850f8ee3a64f12999e8d9c307c2a0,
     type: 2}
+--- !u!114 &114562934310926384
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1950485950112518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2143d395e9c4454b3de84519da0ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 1336699087156928, guid: 3f15a2a40e67c4590bf2d35bc7d5c294, type: 2}
 --- !u!114 &114636516633539296
 MonoBehaviour:
   m_ObjectHideFlags: 1
