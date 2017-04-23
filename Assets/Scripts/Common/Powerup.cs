@@ -142,7 +142,7 @@ public class Powerup : MonoBehaviour {
 
         rend.material.SetColor("_Color", Color.blue);
 
-		AudioManager.instance.PlaySound("Zhonyas", transform.position);
+		AudioManager.instance.PlaySound("Zhonyas");
 
 		while (zhonyaTime > Time.time){
 
