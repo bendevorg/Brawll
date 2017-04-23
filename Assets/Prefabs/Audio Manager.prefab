@@ -109,3 +109,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b4e888355ce5e4b7aaa23dc46891b91f, type: 3}
     - {fileID: 8300000, guid: 5aa151e3070c24e4bbd7814abd1a474c, type: 3}
     - {fileID: 8300000, guid: ed7c3108e826f403c96c57f60e61e61b, type: 3}
+  - groupID: Death
+    group:
+    - {fileID: 8300000, guid: 402c42b0b35d84c0ea905da9f18c9c2d, type: 3}
+  - groupID: Zhonyas
+    group:
+    - {fileID: 8300000, guid: 7eb1b7aee7e0a487897065bfa841546b, type: 3}
