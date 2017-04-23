@@ -10,6 +10,7 @@ public class Enemy : LivingEntity {
 	Powerup powerupController;
 
 	public LayerMask obstacleMask;
+	public LayerMask playerMask;
 	Transform ground;
 
 	private List<Player> players = new List<Player>();
@@ -21,7 +22,7 @@ public class Enemy : LivingEntity {
 
 	Rigidbody rb;
 
-	enum State {Engage, Dash, Desengage};
+	enum State {Engage, Dash, Desengage, Powerup};
 	State enemyState;
 
 	float maxYDistanceToHit;
@@ -82,6 +83,11 @@ public class Enemy : LivingEntity {
 				movementController.Move(input.x, input.y, speed);
 				break;
 
+			case State.Powerup:
+
+				powerupController.UsePowerup();
+				break;
+
 		}
 
 	}
@@ -109,6 +115,19 @@ public class Enemy : LivingEntity {
 			enemyState = State.Dash;
 			UseDash();
 			return;
+
+		}
+
+		//	Verifica se o inimigo mais próximo está vindo na minha direção
+		if (Physics.Raycast(target.position, target.velocity, target.distance, playerMask)) {
+
+			//	Zhonyas
+			if (target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya) {
+
+				enemyState = State.Powerup;
+				return;
+
+			}
 
 		}
 

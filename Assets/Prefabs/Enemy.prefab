@@ -25,7 +25,8 @@ GameObject:
   - component: {fileID: 54708933448349156}
   - component: {fileID: 114820587702351502}
   - component: {fileID: 114103228394638384}
-  m_Layer: 0
+  - component: {fileID: 114136281959076754}
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -117,7 +118,23 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 2048
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 256
   minDistanceToDash: 10
+--- !u!114 &114136281959076754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1336699087156928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f6358beecbc466ea39a26848e0cdc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zhonyaDuration: 2
+  forceMultiplier: 1
 --- !u!114 &114820587702351502
 MonoBehaviour:
   m_ObjectHideFlags: 1

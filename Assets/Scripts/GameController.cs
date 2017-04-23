@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour {
 
 	public static GameController gameController = null;
 
-	private List<Player> players = new List<Player>();
+	//private List<Player> players = new List<Player>();
 
 	void Awake(){
 
@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
 		} else {
 
 			gameController = this;
+			DontDestroyOnLoad(gameObject);
 
 		}
 
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		List<GameObject> livingEntities = new List<GameObject>();
+		/*List<GameObject> livingEntities = new List<GameObject>();
 		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Player"));
 		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 
@@ -33,22 +34,26 @@ public class GameController : MonoBehaviour {
 
 			players.Add(new Player(livingEntity, livingEntity.transform.position));
 
-		}
+		}*/
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		foreach (Player player in players){
+		//if (Input.GetKeyDown(KeyCode.Space)){
+		//	Application.LoadLevel(0);
+		//}
+
+		/*foreach (Player player in players){
 
 			player.UpdatePlayerPosition();
 
-		}
+		} */
 		
 	}
 
-	public List<Player> GetPlayers(){
+	/*public List<Player> GetPlayers(){
 		return players;
 	}
 
@@ -72,6 +77,6 @@ public class GameController : MonoBehaviour {
 			return position;
 		}
 
-	}
+	}*/
 
 }
