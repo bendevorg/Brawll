@@ -121,7 +121,8 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 256
-  difficulty: 1
+  difficulty: 5
+  decisionHandicap: 1
   enemyColors:
   - {r: 0.33077425, g: 0.8440444, b: 0.97794116, a: 0}
   - {r: 0.9411765, g: 0.9278129, b: 0.45674738, a: 0}

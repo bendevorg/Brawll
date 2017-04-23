@@ -8,3 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/brawl.unity
     guid: 9027fde90692c4ee19bc5f8834dc433a
+  - enabled: 1
+    path: Assets/Scene/Fase1.unity
+    guid: 6c5c1bf90c116433aa7f86a72e21d636

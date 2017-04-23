@@ -349,6 +349,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1965567377579018, guid: 60194fc30905a4906a75a565a5034448, type: 2}
+      propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60194fc30905a4906a75a565a5034448, type: 2}
   m_IsPrefabParent: 0
@@ -2596,6 +2600,36 @@ Prefab:
       propertyPath: m_RootOrder
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 114638171127271378, guid: e4e7d389ca3934423975af31fc6225c0,
+        type: 2}
+      propertyPath: soundGroups.Array.data[3].group.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: a25c4eba7d98949e9a3154c88deb1e04, type: 3}
+    - target: {fileID: 114638171127271378, guid: e4e7d389ca3934423975af31fc6225c0,
+        type: 2}
+      propertyPath: soundGroups.Array.data[3].group.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7b4101a84c79448c08f9d479d7e7b74f, type: 3}
+    - target: {fileID: 114638171127271378, guid: e4e7d389ca3934423975af31fc6225c0,
+        type: 2}
+      propertyPath: soundGroups.Array.data[3].group.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 114d6d2de4c894f94a2165b6c87344b6, type: 3}
+    - target: {fileID: 114638171127271378, guid: e4e7d389ca3934423975af31fc6225c0,
+        type: 2}
+      propertyPath: soundGroups.Array.data[3].group.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2af014a211a6d4f959d8a29563503bf2, type: 3}
+    - target: {fileID: 114638171127271378, guid: e4e7d389ca3934423975af31fc6225c0,
+        type: 2}
+      propertyPath: soundGroups.Array.data[3].group.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: b2f1a814e8e3f4fbda0d8f215d1a8457, type: 3}
+    - target: {fileID: 114638171127271378, guid: e4e7d389ca3934423975af31fc6225c0,
+        type: 2}
+      propertyPath: soundGroups.Array.data[1].group.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 83bc9dd57ed52480e91fbbea4308ea2e, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e4e7d389ca3934423975af31fc6225c0, type: 2}
   m_IsPrefabParent: 0

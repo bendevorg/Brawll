@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 1
-  speed: 10
-  dashForce: 10
+  speed: 15
+  dashForce: 15
   dashCooldown: 3
 --- !u!135 &135082179000409252
 SphereCollider:
