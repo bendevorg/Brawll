@@ -17,6 +17,7 @@ public class Enemy : LivingEntity {
 	Target target;
 
 	Vector2 input = Vector2.zero;
+	Vector2 inputPrediction = Vector2.zero;
 
 	SphereCollider sphereCollider;
 	Rigidbody rb;
@@ -25,6 +26,7 @@ public class Enemy : LivingEntity {
 	[RangeAttribute(1, 5)]
 	public int difficulty = 1;
 	int minDifficultyToPredict = 4;
+	public bool decisionHandicap = false;
 
 	//	Parametros de dificuldades
 	float zhonyasChance = 10;
@@ -38,7 +40,7 @@ public class Enemy : LivingEntity {
 	State enemyState;
 
 	float maxYDistanceToHit;
-	public float minDistanceToDash = 5f;
+	public float minDistanceToDash = 3f;
 	float impossibleDodgeDistanceDash = 0.3f;
 
 	// Use this for initialization
@@ -47,12 +49,15 @@ public class Enemy : LivingEntity {
 		handicap = 5/difficulty;
 
 		//	20% incrementando na dificuldade
+		if (!decisionHandicap){
+			zhonyasChance /= handicap;
+			instakillChance /= handicap;
+			dashChance /= handicap;
+		}
+		
 		speed /=  handicap;
 		dashForce /= handicap;
-		zhonyasChance /= handicap;
-		instakillChance /= handicap;
-		dashChance /= handicap;
-
+		minDistanceToDash += handicap;
 
 		rb = GetComponent<Rigidbody>();
 		sphereCollider = GetComponent<SphereCollider>();
@@ -67,8 +72,6 @@ public class Enemy : LivingEntity {
 			rend.material.SetColor("_Color", enemyColors[enemyColors.Length - 1]);	
 		}
 
-		
-
 		//	Se a sphere mudar de tamanho online mudar isso para um update
 		maxYDistanceToHit = sphereCollider.radius;
 
@@ -78,7 +81,7 @@ public class Enemy : LivingEntity {
 
 		foreach (GameObject livingEntity in livingEntities){
 
-			if (livingEntity != this.gameObject) players.Add(new Player(livingEntity, livingEntity.transform.position, livingEntity.GetComponent<Rigidbody>()));
+			if (livingEntity != this.gameObject) players.Add(new Player(livingEntity, livingEntity.transform.position, livingEntity.GetComponent<Rigidbody>(), livingEntity.GetComponent<Powerup>()));
 			livingEntity.GetComponent<LivingEntity>().OnEntityDeath += RemoveEntity;
 
 		}
@@ -111,7 +114,7 @@ public class Enemy : LivingEntity {
 			case State.Engage:
 
 				Debug.DrawLine (transform.position, (Vector2)transform.position + input * 10, Color.red, Mathf.Infinity);
-				movementController.Move(input.x, input.y, speed);
+				movementController.Move(inputPrediction.x, inputPrediction.y, speed);
 				break;
 
 			case State.Powerup:
@@ -132,9 +135,11 @@ public class Enemy : LivingEntity {
 		//	Decidindo a direção que vamos
 		Vector3 finalTargetPos = target.position + (target.velocity);
 
-		Vector3 direction = difficulty < minDifficultyToPredict?(target.position - transform.position):(finalTargetPos - transform.position);
+		Vector3 direction = (target.position - transform.position);
+		Vector3 directionPredicted = difficulty < minDifficultyToPredict?(target.position - transform.position):(finalTargetPos - transform.position);
 
 		input = new Vector2(direction.x, direction.z);
+		inputPrediction = new Vector2(directionPredicted.x, directionPredicted.z);
 
 	}
 	
@@ -145,7 +150,7 @@ public class Enemy : LivingEntity {
 		int dashValue = Random.Range(1, 11);
 		
 		//	Kill certo
-		if (target.distance <= impossibleDodgeDistanceDash && CanDash() && instakillValue <= instakillChance){
+		if (target.distance <= impossibleDodgeDistanceDash && CanDash() && instakillValue <= instakillChance && target.state != (int)Powerup.States.Zhonya){
 
 			enemyState = State.Dash;
 			UseDash();
@@ -177,7 +182,7 @@ public class Enemy : LivingEntity {
 
 		if (target.distance <= minDistanceToDash){
 
-			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && CanDash() && dashValue <= dashChance) {
+			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && CanDash() && dashValue <= dashChance && target.state != (int)Powerup.States.Zhonya) {
 
 				enemyState = State.Dash;
 				UseDash();
@@ -206,6 +211,7 @@ public class Enemy : LivingEntity {
 				target.distance = playerDistance;
 				target.position = player.GetPosition();
 				target.velocity = player.GetVelocity();
+				target.state = player.GetState();
 
 			}
 		}
@@ -229,12 +235,14 @@ public class Enemy : LivingEntity {
 		GameObject entity;
 		Vector3 position;
 		Rigidbody rb;
+		Powerup powerup;
 
-		public Player(GameObject _entity, Vector3 _position, Rigidbody _rb){
+		public Player(GameObject _entity, Vector3 _position, Rigidbody _rb, Powerup _powerup){
 
 			entity = _entity;
 			position = _position;
 			rb = _rb;
+			powerup = _powerup;
 
 		}
 
@@ -254,6 +262,10 @@ public class Enemy : LivingEntity {
 			return rb.velocity;
 		}
 
+		public int GetState(){
+			return powerup.GetState();
+		}
+
 	}
 
 	public struct Target{
@@ -261,6 +273,7 @@ public class Enemy : LivingEntity {
 		public float distance;
 		public Vector3 position;
 		public Vector3 velocity;
+		public int state;
 
 	}
 
