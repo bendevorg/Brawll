@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour {
 
+	public ParticleSystem hitEffect;
 	private Rigidbody rb;
 
 	void Start () {
@@ -28,10 +29,11 @@ public class Movement : MonoBehaviour {
 
 		if (tag == "Enemy" || tag == "Player" || tag == "Obstacle") {
 
-			AudioManager.instance.PlaySound("Impact", Vector3.zero);
 			Vector3 knockback = collision.contacts[0].normal * collision.relativeVelocity.magnitude;
 			Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
 			rb.AddForce(knockbackClamped, ForceMode.Impulse);
+			Instantiate(hitEffect, collision.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, Vector3.zero));
+			AudioManager.instance.PlaySound("Impact", Vector3.zero);
 			
 		}
 	}
