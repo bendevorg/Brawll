@@ -5,7 +5,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour {
 
 	//	Jogar isso pro game controller
-	enum Powerups {None = -1, Zhonya = 0};
+	public enum Powerups {None = -1, Zhonya = 0};
 	Powerups actualPowerup = Powerups.None;
 
 	/*public float bulkMass = 4f;
@@ -58,6 +58,10 @@ public class Powerup : MonoBehaviour {
 
 		}
 
+	}
+
+	public int GetPowerup(){
+		return (int)actualPowerup;
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -126,6 +130,8 @@ public class Powerup : MonoBehaviour {
 		rb.isKinematic = true;
 		col.enabled = false;
 
+		Color oldColor = rend.material.color;
+
         rend.material.SetColor("_Color", Color.blue);
 
 		while (zhonyaTime > Time.time){
@@ -134,7 +140,7 @@ public class Powerup : MonoBehaviour {
 
 		}
 
-		rend.material.SetColor("_Color", Color.green);
+		rend.material.SetColor("_Color", oldColor);
 
 		rb.isKinematic = false;
 		col.enabled = true;
