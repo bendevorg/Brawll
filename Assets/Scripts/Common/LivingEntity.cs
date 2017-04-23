@@ -53,7 +53,7 @@ public class LivingEntity : MonoBehaviour {
 
 	void Death(){
 		
-		//	Aplicar efeito visual de morrer aqui
+		AudioManager.instance.PlaySound("Death", transform.position);
 
 		if (OnEntityDeath != null){
 			OnEntityDeath(gameObject);
