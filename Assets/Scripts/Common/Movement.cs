@@ -24,7 +24,7 @@ public class Movement : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		string tag = collision.gameObject.tag;
-		if (tag == "Enemy" || tag == "Player") {
+		if (tag == "Enemy" || tag == "Player" || tag == "Obstacle") {
 			Vector3 knockback = collision.contacts[0].normal * collision.relativeVelocity.magnitude;
 			Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
 			rb.AddForce(knockbackClamped, ForceMode.Impulse);
