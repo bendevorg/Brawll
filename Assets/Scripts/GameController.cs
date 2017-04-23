@@ -41,9 +41,9 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//if (Input.GetKeyDown(KeyCode.Space)){
-		//	Application.LoadLevel(0);
-		//}
+		if (Input.GetKeyDown(KeyCode.Space)){
+			Application.LoadLevel(0);
+		}
 
 		/*foreach (Player player in players){
 

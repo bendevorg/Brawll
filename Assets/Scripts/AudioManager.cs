@@ -10,7 +10,10 @@ public class AudioManager : MonoBehaviour {
 	Transform playerTransform;
 	SoundLibrary soundLibrary;
 
+	AudioSource audioSource;
+
 	void Awake() {
+
 		if(instance != null) {
 			Destroy(gameObject);
 		} else {
@@ -20,6 +23,8 @@ public class AudioManager : MonoBehaviour {
 			soundLibrary = GetComponent<SoundLibrary>();
 			audioListener = FindObjectOfType<AudioListener>().transform;
 			playerTransform = FindObjectOfType<Player>().transform;
+			audioSource = GetComponent<AudioSource>();
+
 		}
 	}
 
@@ -31,7 +36,8 @@ public class AudioManager : MonoBehaviour {
 
 	public void PlaySound(AudioClip clip, Vector3 position) {
 		if(clip != null) {
-			AudioSource.PlayClipAtPoint(clip, position); 
+			//audioSource.PlayClipAtPoint(clip, position); 
+			audioSource.PlayOneShot(clip, 1f);
 		}
 	}
 
