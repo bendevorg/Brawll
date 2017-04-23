@@ -25,7 +25,9 @@ public class Obstacle : MonoBehaviour {
 
 	void DegradadeObstacle(){
 
-		rend.material.SetColor("_Color", obstacleStates[wallState]);
+		if (wallState < obstacleStates.Length && wallState > -1){
+			rend.material.SetColor("_Color", obstacleStates[wallState]);
+		}
 		wallState++;
 
 	}

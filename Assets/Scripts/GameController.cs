@@ -123,7 +123,9 @@ public class GameController : MonoBehaviour {
 
 	public void SetDifficulty(int _difficulty){
 
-		if (difficulty == 0){
+		Debug.Log(_difficulty);
+
+		if (_difficulty == 0){
 
 			storyMode = true;
 			difficulty = 1;
@@ -134,6 +136,9 @@ public class GameController : MonoBehaviour {
 			difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
 
 		}
+
+		Debug.Log(storyMode);
+
 	}
 
 	public void SetTrueMode(){
