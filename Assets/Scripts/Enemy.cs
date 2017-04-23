@@ -19,11 +19,20 @@ public class Enemy : LivingEntity {
 	Vector2 input = Vector2.zero;
 
 	SphereCollider sphereCollider;
-
 	Rigidbody rb;
+	Renderer rend;
 
 	[RangeAttribute(1, 5)]
-	public int difficulty;
+	public int difficulty = 1;
+	int minDifficultyToPredict = 4;
+
+	//	Parametros de dificuldades
+	float zhonyasChance = 10;
+	float instakillChance = 10;
+	float dashChance = 10;
+	float handicap;
+
+	public Color[] enemyColors;
 
 	enum State {Engage, Dash, Desengage, Powerup};
 	State enemyState;
@@ -35,8 +44,14 @@ public class Enemy : LivingEntity {
 	// Use this for initialization
 	void Start () {
 
-		//	Easy 10% chance Zhonyas, 20% chance insta kill, 30% chance dash, 20% speed, 50% dash force
+		handicap = 5/difficulty;
 
+		//	20% incrementando na dificuldade
+		speed /=  handicap;
+		dashForce /= handicap;
+		zhonyasChance /= handicap;
+		instakillChance /= handicap;
+		dashChance /= handicap;
 
 
 		rb = GetComponent<Rigidbody>();
@@ -44,6 +59,15 @@ public class Enemy : LivingEntity {
 		ground = GameObject.FindGameObjectWithTag("Ground").transform;
 		movementController = GetComponent<Movement>();
 		powerupController = GetComponent<Powerup>();
+		rend = GetComponent<Renderer>();
+
+		if (difficulty - 1 <= enemyColors.Length - 1){
+			rend.material.SetColor("_Color", enemyColors[difficulty - 1]);
+		} else {
+			rend.material.SetColor("_Color", enemyColors[enemyColors.Length - 1]);	
+		}
+
+		
 
 		//	Se a sphere mudar de tamanho online mudar isso para um update
 		maxYDistanceToHit = sphereCollider.radius;
@@ -108,16 +132,20 @@ public class Enemy : LivingEntity {
 		//	Decidindo a direção que vamos
 		Vector3 finalTargetPos = target.position + (target.velocity);
 
-		Vector3 direction = easyMode?(target.position - transform.position):(finalTargetPos - transform.position);
+		Vector3 direction = difficulty < minDifficultyToPredict?(target.position - transform.position):(finalTargetPos - transform.position);
 
 		input = new Vector2(direction.x, direction.z);
 
 	}
 	
 	public void DecideState(){
+
+		int instakillValue = Random.Range(1, 11);
+		int zhonyasValue = Random.Range(1, 11);
+		int dashValue = Random.Range(1, 11);
 		
 		//	Kill certo
-		if (target.distance <= impossibleDodgeDistanceDash && CanDash()){
+		if (target.distance <= impossibleDodgeDistanceDash && CanDash() && instakillValue <= instakillChance){
 
 			enemyState = State.Dash;
 			UseDash();
@@ -129,7 +157,7 @@ public class Enemy : LivingEntity {
 		if (Physics.Raycast(target.position, target.velocity, target.distance, playerMask)) {
 
 			//	Zhonyas
-			if (target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya) {
+			if (target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya && zhonyasValue <= zhonyasChance) {
 
 				enemyState = State.Powerup;
 				return;
@@ -149,7 +177,7 @@ public class Enemy : LivingEntity {
 
 		if (target.distance <= minDistanceToDash){
 
-			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && CanDash()) {
+			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && CanDash() && dashValue <= dashChance) {
 
 				enemyState = State.Dash;
 				UseDash();

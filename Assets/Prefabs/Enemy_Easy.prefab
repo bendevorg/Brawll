@@ -112,8 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 1
-  speed: 6
-  dashForce: 6
+  speed: 30
+  dashForce: 30
   dashCooldown: 3
   obstacleMask:
     serializedVersion: 2
@@ -121,7 +121,13 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 256
-  easyMode: 1
+  difficulty: 1
+  enemyColors:
+  - {r: 0.33077425, g: 0.8440444, b: 0.97794116, a: 0}
+  - {r: 0.9411765, g: 0.9278129, b: 0.45674738, a: 0}
+  - {r: 0.793466, g: 0.39824826, b: 0.9338235, a: 0}
+  - {r: 0.9191176, g: 0.6476703, b: 0.30411983, a: 0}
+  - {r: 1, g: 0.3602941, b: 0.3602941, a: 0}
   minDistanceToDash: 3
 --- !u!114 &114523308954184028
 MonoBehaviour:
