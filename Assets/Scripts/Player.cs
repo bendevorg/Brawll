@@ -26,8 +26,8 @@ public class Player : LivingEntity {
 		moveHorizontal = Input.GetAxisRaw("Horizontal");
 		moveVertical = Input.GetAxisRaw("Vertical");
 
-		willDash = Input.GetButtonDown("Fire3") && CanDash();
-		usePowerup = Input.GetKeyDown(KeyCode.Z);
+		willDash = Input.GetButtonDown("Fire2") && CanDash();
+		usePowerup = Input.GetButtonDown("Fire1");
 
 		if (usePowerup) {
 
