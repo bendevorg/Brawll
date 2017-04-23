@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Spawner))]
-public class GameController : MonoBehaviour {
+	public class GameController : MonoBehaviour {
 
 	public static GameController gameController = null;
 
 	public enum GameMode {Campaign = 0, Endless = 1, SingleMatch = 2};
 	public GameMode gameMode = GameMode.Campaign;
 
+	[HideInInspector]
 	public int difficulty = 0;
 	[HideInInspector]
 	public bool trueMode = false;
@@ -18,21 +18,26 @@ public class GameController : MonoBehaviour {
 	public GameObject restartUI;
 	public GameObject nextUI;
 	public GameObject endUI;
+	public GameObject endlessUI;
+	EndlessUI endlessUIController;
 
 	//	Endless variables
-	Spawner spawner;
-	[HideInInspector]
-	public bool playEndless = false;
-
 	public Wave[] waves;
-	int amountOfEnemies = 0;
+	[HideInInspector]
+	public int amountOfEnemiesToSpawn = 0;
 	[HideInInspector]
 	public float minSpawnTime = 0;
 	[HideInInspector]
 	public float maxSpawnTime = 0;
+	[HideInInspector]
+	public bool newWaveBegun = false;
+
+	int enemiesRemaining = 0;
+
 	int wave = 0;
 
-	bool gameOver = false;
+	[HideInInspector]
+	public bool gameOver = false;
 
 	void Awake(){
 
@@ -47,7 +52,7 @@ public class GameController : MonoBehaviour {
 
 		}
 
-		spawner = GetComponent<Spawner>();
+		endlessUIController = endlessUI.GetComponent<EndlessUI>();
 
 	}
 
@@ -76,7 +81,6 @@ public class GameController : MonoBehaviour {
 				if (entity.Length <= 1){
 
 					gameOver = true;
-					spawner.StopSpawning();
 					restartUI.SetActive(true);
 					return;
 
@@ -84,13 +88,18 @@ public class GameController : MonoBehaviour {
 
 			} else {
 
+				if (gameMode == GameMode.Endless){
+
+					enemiesRemaining--;
+					endlessUIController.ChangeEnemiesRemainingText(enemiesRemaining);
+
+				}
+
 				if (entity.Length <= 1){
 
 					if (gameMode == GameMode.Endless){
 
-						amountOfEnemies--;
-
-						if (amountOfEnemies <= 0){
+						if (enemiesRemaining <= 0){
 							NextWave();
 						}		
 
@@ -127,54 +136,54 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void PauseGame(){
+
 		Time.timeScale = 1 - Time.timeScale;
+
 	}
 
 	public void StartGame(bool firstStart){
 
-		if (firstStart){
+		DeactivateAllUI();
+		gameOver = false;
+
+		if (firstStart || gameMode == GameMode.Endless){
 
 			if (gameMode == GameMode.Campaign){
 
 				difficulty = 1;
-				playEndless = false;
 
 			} else if (gameMode == GameMode.Endless) {
 				
 				difficulty = 1;
 				wave = 0;
-				playEndless = true;
-				spawner.StartSpawning();
+
+				NextWave();
+
+				endlessUI.SetActive(true);
 				
-			} else if (gameMode == GameMode.SingleMatch){
-
-				playEndless = false;
-
 			}
-
 		}
-
-		gameOver = false;
-		restartUI.SetActive(false);
-		nextUI.SetActive(false);
-		endUI.SetActive(false);
 
 		Application.LoadLevel(1);
 	}
 
 	public void RestartGame(){
 
-		playEndless = false;
-		spawner.StopSpawning();
-
 		gameOver = false;
-		restartUI.SetActive(false);
-		nextUI.SetActive(false);
-		endUI.SetActive(false);
+		DeactivateAllUI();
 
 		Time.timeScale = 1;
 		Application.LoadLevel(0);
 		Destroy(gameObject);
+	}
+
+	public void DeactivateAllUI(){
+
+		restartUI.SetActive(false);
+		nextUI.SetActive(false);
+		endUI.SetActive(false);
+		endlessUI.SetActive(false);
+
 	}
 
 	public void SetGamemode(int _gameMode){
@@ -190,6 +199,10 @@ public class GameController : MonoBehaviour {
 		difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
 
 	}
+
+	public void SetEnemies(int _amountOfEnemiesToSpawn){
+		amountOfEnemiesToSpawn = _amountOfEnemiesToSpawn;
+	}
 	
 	public void NextWave(){
 
@@ -199,12 +212,17 @@ public class GameController : MonoBehaviour {
 
 		}
 
-		amountOfEnemies = waves[wave].amountOfEnemies;
+		amountOfEnemiesToSpawn = waves[wave].amountOfEnemiesToSpawn;
 		difficulty = waves[wave].difficulty;
 		minSpawnTime = waves[wave].minSpawnTime;
 		maxSpawnTime = waves[wave].maxSpawnTime;
 
 		wave++;
+		newWaveBegun = true;
+
+		enemiesRemaining = amountOfEnemiesToSpawn;
+		endlessUIController.ChangeWaveText(wave);
+		endlessUIController.ChangeEnemiesRemainingText(amountOfEnemiesToSpawn);
 
 	}
 	
@@ -225,7 +243,7 @@ public class GameController : MonoBehaviour {
 	[System.SerializableAttribute]
 	public struct Wave{
 
-		public int amountOfEnemies;
+		public int amountOfEnemiesToSpawn;
 		public int difficulty;
 		public float minSpawnTime;
 		public float maxSpawnTime;
