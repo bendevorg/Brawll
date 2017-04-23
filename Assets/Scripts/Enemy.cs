@@ -24,9 +24,9 @@ public class Enemy : LivingEntity {
 	Renderer rend;
 
 	[RangeAttribute(1, 5)]
-	public int difficulty = 1;
+	int difficulty = 1;
 	int minDifficultyToPredict = 4;
-	public bool decisionHandicap = false;
+	bool decisionHandicap = false;
 
 	//	Parametros de dificuldades
 	float zhonyasChance = 10;
@@ -45,6 +45,9 @@ public class Enemy : LivingEntity {
 
 	// Use this for initialization
 	void Start () {
+
+		difficulty = GameController.gameController.difficulty;
+		decisionHandicap = GameController.gameController.trueMode;
 
 		handicap = 5/difficulty;
 

@@ -2315,6 +2315,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1305284308}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1346682141
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -1.345665
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -1.1234775
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.061249256
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1498320203
 GameObject:
   m_ObjectHideFlags: 0
@@ -2780,49 +2822,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2107057905
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -1.345665
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -1.1234775
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.061249256
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516391094403222, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392501169721586, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-      propertyPath: m_Name
-      value: Game Controller
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
-  m_IsPrefabParent: 0

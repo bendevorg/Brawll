@@ -6,13 +6,15 @@ public class GameController : MonoBehaviour {
 
 	public static GameController gameController = null;
 
-	//private List<Player> players = new List<Player>();
+	public int difficulty = 1;
+	public bool trueMode = true;
+	int maxDifficulty = 5;
 
 	void Awake(){
 
-		if(gameController != null && gameController != this){
+		if(gameController != null){
 
-			Destroy(this.gameObject);
+			Destroy(gameObject);
 
 		} else {
 
@@ -23,60 +25,39 @@ public class GameController : MonoBehaviour {
 
 	}
 
-	// Use this for initialization
-	void Start () {
-
-		/*List<GameObject> livingEntities = new List<GameObject>();
-		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Player"));
-		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-
-		foreach (GameObject livingEntity in livingEntities){
-
-			players.Add(new Player(livingEntity, livingEntity.transform.position));
-
-		}*/
-		
-	}
-	
 	// Update is called once per frame
 	void Update () {
 
 		if (Input.GetKeyDown(KeyCode.Space)){
-			Application.LoadLevel(1);
+			RestartGame();
 		}
 
-		/*foreach (Player player in players){
-
-			player.UpdatePlayerPosition();
-
-		} */
+		if (Input.GetKeyDown(KeyCode.P)){
+			PauseGame();
+		}
 		
 	}
 
-	/*public List<Player> GetPlayers(){
-		return players;
+	public void PauseGame(){
+		Time.timeScale = 1 - Time.timeScale;
 	}
 
-	public struct Player{
+	public void StartGame(){
+		Application.LoadLevel(1);
+	}
 
-		GameObject entity;
-		Vector3 position;
+	void RestartGame(){
+		Application.LoadLevel(0);
+		Destroy(gameObject);
+	}
 
-		public Player(GameObject _entity, Vector3 _position){
+	public void SetDifficulty(int _difficulty){
+		_difficulty  += 1;
+		difficulty = (_difficulty <= maxDifficulty) && _difficulty > 0?_difficulty:1;
+	}
 
-			entity = _entity;
-			position = _position;
-
-		}
-
-		public void UpdatePlayerPosition(){
-			position = entity.transform.position;
-		}
-
-		public Vector3 GetPosition(){
-			return position;
-		}
-
-	}*/
+	public void SetTrueMode(){
+		trueMode = !trueMode;
+	}
 
 }

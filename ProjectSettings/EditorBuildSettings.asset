@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scene/brawl.unity
     guid: 9027fde90692c4ee19bc5f8834dc433a
+  - enabled: 1
+    path: Assets/Scene/Start.unity
+    guid: 42b92bda7bf2d421f80c10eaf830597a
   - enabled: 1
     path: Assets/Scene/Fase1.unity
     guid: 6c5c1bf90c116433aa7f86a72e21d636
