@@ -32,7 +32,9 @@ public class Movement : MonoBehaviour {
 			Vector3 knockback = collision.contacts[0].normal * collision.relativeVelocity.magnitude;
 			Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
 			rb.AddForce(knockbackClamped, ForceMode.Impulse);
-			Instantiate(hitEffect, collision.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, Vector3.zero));
+
+			Instantiate(hitEffect, collision.contacts[0].point, Quaternion. FromToRotation(Vector3.forward, collision.relativeVelocity));
+
 			AudioManager.instance.PlaySound("Impact", Vector3.zero);
 			
 		}

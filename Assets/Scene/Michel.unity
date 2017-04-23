@@ -348,10 +348,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 1336699087156928, guid: 3f15a2a40e67c4590bf2d35bc7d5c294, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3f15a2a40e67c4590bf2d35bc7d5c294, type: 2}
   m_IsPrefabParent: 0
@@ -2399,15 +2395,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.38
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 2.74
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2428,33 +2424,6 @@ Prefab:
     - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000731816531968, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 135082179000409252, guid: 4c7c9529fe33345f8add92d75ff23b72,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561085920731320, guid: 4c7c9529fe33345f8add92d75ff23b72,
-        type: 2}
-      propertyPath: bulkBoostForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561085920731320, guid: 4c7c9529fe33345f8add92d75ff23b72,
-        type: 2}
-      propertyPath: bulkMass
-      value: 400
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c7c9529fe33345f8add92d75ff23b72, type: 2}
