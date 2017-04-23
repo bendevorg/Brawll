@@ -6,7 +6,10 @@ public class Powerup : MonoBehaviour {
 
 	//	Jogar isso pro game controller
 	public enum Powerups {None = -1, Zhonya = 0};
+	public enum States {None = -1, Zhonya = 0};
+
 	Powerups actualPowerup = Powerups.None;
+	States actualState = States.None;
 
 	/*public float bulkMass = 4f;
 	public float bulkSize = 4f;
@@ -62,6 +65,10 @@ public class Powerup : MonoBehaviour {
 
 	public int GetPowerup(){
 		return (int)actualPowerup;
+	}
+
+	public int GetState(){
+		return (int)actualState;
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -127,6 +134,7 @@ public class Powerup : MonoBehaviour {
 
 		float zhonyaTime = zhonyaDuration + Time.time;
 
+		actualState = States.Zhonya;
 		rb.isKinematic = true;
 		col.enabled = false;
 
@@ -146,6 +154,7 @@ public class Powerup : MonoBehaviour {
 
 		rb.isKinematic = false;
 		col.enabled = true;
+		actualState = States.None;
 
 	}
 

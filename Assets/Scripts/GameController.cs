@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour {
 	void Update () {
 
 		if (Input.GetKeyDown(KeyCode.Space)){
-			Application.LoadLevel(0);
+			Application.LoadLevel(1);
 		}
 
 		/*foreach (Player player in players){
