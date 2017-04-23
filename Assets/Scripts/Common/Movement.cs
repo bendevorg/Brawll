@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +47,7 @@ public class Movement : MonoBehaviour {
 		Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
 		rb.AddForce(knockbackClamped, ForceMode.Impulse);
 
-		Instantiate(hitEffect, col.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, col.relativeVelocity));
+		Destroy(Instantiate(hitEffect, col.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, col.relativeVelocity)), 2f);
 	}
 
 	void OnCollisionEnter(Collision collision) {
