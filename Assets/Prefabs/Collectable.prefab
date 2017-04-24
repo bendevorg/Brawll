@@ -105,5 +105,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2d8c0b513c6c40d8badaffdbc8fa5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimeToRespawn: 1
-  maxTimeToRespawn: 1
+  minTimeToRespawn: 5
+  maxTimeToRespawn: 10
