@@ -144,7 +144,7 @@ MonoBehaviour:
   life: 1
   speed: 15
   dashForce: 35
-  dashCooldown: 3
+  dashCooldown: 2
   player1: 1
 --- !u!135 &135082179000409252
 SphereCollider:
