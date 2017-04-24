@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour {
 	public ParticleSystem dashEffect;
 	private Rigidbody rb;
 
-	void Start () {
+	void Awake () {
 		rb = GetComponent<Rigidbody>();
 	}
 
