@@ -32,6 +32,10 @@ public class Collectable : MonoBehaviour {
 		StartCoroutine(Spawn());
 
 	}
+
+	void Update() {
+		transform.Rotate(0, 1f, 0);
+	}
 	
 	public int PickUp(){
 
