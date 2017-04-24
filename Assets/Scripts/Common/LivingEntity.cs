@@ -21,7 +21,8 @@ public class LivingEntity : MonoBehaviour {
 
 		if (!canDash){
 
-			canDash = Time.time >= timeToDash;
+			canDash = Time.time > timeToDash;
+			GameController.gameController.SetDashText(timeToDash - Time.time, this.tag);
 
 		}
 	}
