@@ -97,7 +97,7 @@ MonoBehaviour:
   specialMaxSize: 500
   specialSpeed: 100
   specialCooldown: 3
-  power: 100
+  power: 40
   caster: {fileID: 0}
 --- !u!114 &114000010885095028
 MonoBehaviour:

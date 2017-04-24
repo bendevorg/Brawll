@@ -20,6 +20,9 @@ using UnityEngine;
 	public GameObject endUI;
 	public GameObject endlessUI;
 	EndlessUI endlessUIController;
+	public GameObject gameUI;
+	GameUI gameUIController; 
+
 
 	//	Endless variables
 	public Wave[] waves;
@@ -54,6 +57,7 @@ using UnityEngine;
 		}
 
 		endlessUIController = endlessUI.GetComponent<EndlessUI>();
+		gameUIController = gameUI.GetComponent<GameUI>();
 
 	}
 
@@ -170,6 +174,10 @@ using UnityEngine;
 
 		}
 
+		gameUI.SetActive(true);
+		SetDashText(0, "Player");
+		SetPowerupText(0, "Player");
+
 		Application.LoadLevel(1);
 	}
 
@@ -189,6 +197,7 @@ using UnityEngine;
 		nextUI.SetActive(false);
 		endUI.SetActive(false);
 		endlessUI.SetActive(false);
+		gameUI.SetActive(false);
 
 	}
 
@@ -260,6 +269,16 @@ using UnityEngine;
 		public float minSpawnTime;
 		public float maxSpawnTime;
 
+	}
+
+	//	Retirar a verificação de tag
+
+	public void SetDashText(float timeRemainingToDash, string tag){
+		if (tag == "Player") gameUIController.SetDashText(timeRemainingToDash);
+	}
+
+	public void SetPowerupText(int powerup, string tag){
+		if (tag == "Player") gameUIController.SetPowerupText(powerup);
 	}
 
 }

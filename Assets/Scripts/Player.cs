@@ -41,6 +41,7 @@ public class Player : LivingEntity {
 		if (usePowerup) {
 
 			powerupController.UsePowerup();
+			GameController.gameController.SetPowerupText((int)Powerup.Powerups.None, this.tag);
 
 		}
 

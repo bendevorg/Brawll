@@ -301,7 +301,18 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114184724873397432, guid: 2579420d8c66c4866868b0c6ffbef970,
+        type: 2}
+      propertyPath: m_Text
+      value: 'X: Nothing'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114810454324503070, guid: 2579420d8c66c4866868b0c6ffbef970,
+        type: 2}
+      propertyPath: m_Text
+      value: 'Z: Dash'
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114586873325036722, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1593116157

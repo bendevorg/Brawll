@@ -86,6 +86,7 @@ public class Powerup : MonoBehaviour {
 		if (other.tag == collectableTag){
 
 			actualPowerup = (Powerups)other.GetComponent<Collectable>().PickUp();
+			GameController.gameController.SetPowerupText((int)actualPowerup, this.tag);
 
 		}
 	}
