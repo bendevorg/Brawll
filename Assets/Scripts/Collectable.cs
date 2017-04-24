@@ -32,7 +32,7 @@ public class Collectable : MonoBehaviour {
 
 		StartCoroutine(Spawn());
 
-		return Random.Range(0, powerupAmount);
+		return Random.Range(1, powerupAmount);
 
 	}
 
