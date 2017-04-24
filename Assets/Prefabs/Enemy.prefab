@@ -115,6 +115,8 @@ MonoBehaviour:
   speed: 25
   dashForce: 25
   dashCooldown: 3
+  deathEffect: {fileID: 198112035631573074, guid: 10d8fc613eb02476a99bc9cdf57679f9,
+    type: 2}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 2048

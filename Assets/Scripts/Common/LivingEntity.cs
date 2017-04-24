@@ -15,6 +15,7 @@ public class LivingEntity : MonoBehaviour {
 	bool canDash = true;
 
 	public event Action<GameObject> OnEntityDeath;
+	public ParticleSystem deathEffect;
 
 	public virtual void Update(){
 
@@ -54,6 +55,8 @@ public class LivingEntity : MonoBehaviour {
 	void Death(){
 		CameraShaker.Shake(0.3f, 0.3f);
 		AudioManager.instance.PlaySound("Death");
+
+		Instantiate(deathEffect, transform.position, Quaternion.identity);
 
 		if (OnEntityDeath != null){
 			OnEntityDeath(gameObject);
