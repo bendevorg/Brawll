@@ -145,6 +145,8 @@ MonoBehaviour:
   speed: 15
   dashForce: 35
   dashCooldown: 2
+  deathEffect: {fileID: 198112035631573074, guid: 10d8fc613eb02476a99bc9cdf57679f9,
+    type: 2}
   player1: 1
 --- !u!135 &135082179000409252
 SphereCollider:

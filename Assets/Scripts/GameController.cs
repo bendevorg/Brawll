@@ -176,7 +176,7 @@ using UnityEngine;
 
 		gameUI.SetActive(true);
 		SetDashText(0, "Player");
-		SetPowerupText(0, "Player");
+		SetPowerupText((int)Powerup.Powerups.None, "Player");
 
 		Application.LoadLevel(1);
 	}
