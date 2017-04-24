@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour {
 
+	public bool pickupAvaiable = false;
+
 	public float minTimeToRespawn = 5f;
 	public float maxTimeToRespawn = 10f;
 
@@ -12,7 +14,8 @@ public class Collectable : MonoBehaviour {
 	Renderer rend;
 
 	int powerupAmount = 2;
-	int actualPowerup;
+	[HideInInspector]
+	public int actualPowerup;
 
 	public Color[] powerupColors;
 
@@ -34,6 +37,7 @@ public class Collectable : MonoBehaviour {
 
 		collider.enabled = false;
 		renderer.enabled = false;
+		pickupAvaiable = false;
 
 		StartCoroutine(Spawn());
 
@@ -61,6 +65,7 @@ public class Collectable : MonoBehaviour {
 
 		renderer.enabled = true;
 		collider.enabled = true;
+		pickupAvaiable = true;
 
 	}
 }

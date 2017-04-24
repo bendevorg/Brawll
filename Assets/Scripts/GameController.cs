@@ -9,7 +9,6 @@ using UnityEngine;
 	public enum GameMode {Campaign = 0, Endless = 1, SingleMatch = 2};
 	public GameMode gameMode = GameMode.Campaign;
 
-	[HideInInspector]
 	public int difficulty = 0;
 	[HideInInspector]
 	public bool trueMode = false;

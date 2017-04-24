@@ -14,6 +14,7 @@ public class Enemy : LivingEntity {
 	Transform ground;
 
 	private List<Player> players = new List<Player>();
+	//private List<Collectable> collectables = new List<Collectable>();
 	Target target;
 
 	Vector2 input = Vector2.zero;
@@ -30,18 +31,22 @@ public class Enemy : LivingEntity {
 
 	//	Parametros de dificuldades
 	float zhonyasChance = 10;
+	float forceChance = 10;
 	float instakillChance = 10;
 	float dashChance = 10;
 	float handicap;
 
 	public Color[] enemyColors;
 
-	enum State {Engage, Dash, Desengage, Powerup};
+	enum State {Engage, Dash, Desengage, Powerup, PickPowerup};
 	State enemyState;
 
 	float maxYDistanceToHit;
 	public float minDistanceToDash = 3f;
 	float impossibleDodgeDistanceDash = 0.3f;
+
+	Vector3 futurePosition;
+	float safeDistance = 2.7f;
 
 	// Use this for initialization
 	void Start () {
@@ -61,6 +66,7 @@ public class Enemy : LivingEntity {
 		//	20% incrementando na dificuldade
 		if (!decisionHandicap){
 			zhonyasChance /= handicap;
+			forceChance /= handicap;
 			instakillChance /= handicap;
 			dashChance /= handicap;
 		}
@@ -78,6 +84,8 @@ public class Enemy : LivingEntity {
 		//	Se a sphere mudar de tamanho online mudar isso para um update
 		maxYDistanceToHit = sphereCollider.radius;
 
+
+		// 	TODO: TUDO ISSO ABAIXO DEVERIA TER EM ALGO ESTÁTICO
 		List<GameObject> livingEntities = new List<GameObject>();
 		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Player"));
@@ -88,6 +96,15 @@ public class Enemy : LivingEntity {
 			livingEntity.GetComponent<LivingEntity>().OnEntityDeath += RemoveEntity;
 
 		}
+
+		//	Pega todos os collectables do map
+		/*List<GameObject> collectablesGameObject = new List<GameObject>();
+		collectablesGameObject.AddRange(GameObject.FindGameObjectsWithTag("Collectable"));
+
+		foreach (GameObject collectable in collectablesGameObject){
+			collectables.Add(collectable.GetComponent<Collectable>());
+		}*/
+
 	}
 
 	public override void Update(){
@@ -106,7 +123,30 @@ public class Enemy : LivingEntity {
 
 				Vector3 direction = (ground.position - transform.position);
 				input = new Vector2(direction.x, direction.z);
-				movementController.Move(input.x, input.y, speed);
+
+				if (Vector3.Distance(transform.position, futurePosition) > safeDistance){
+
+					if (powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya){
+
+					powerupController.UsePowerup();
+
+					} else if (CanDash()){
+
+						UseDash();
+						movementController.Dash(input.x, input.y, dashForce);
+
+					} else {
+
+						movementController.Move(input.x, input.y, speed);
+
+					}
+
+				} else {
+
+					movementController.Move(input.x, input.y, speed);
+
+				}
+
 				break;
 
 			case State.Dash:
@@ -116,13 +156,19 @@ public class Enemy : LivingEntity {
 
 			case State.Engage:
 
-				Debug.DrawLine (transform.position, (Vector2)transform.position + input * 10, Color.red, Mathf.Infinity);
+				// Debug.DrawLine (transform.position, (Vector2)transform.position + input * 10, Color.red, Mathf.Infinity);
 				movementController.Move(inputPrediction.x, inputPrediction.y, speed);
 				break;
 
 			case State.Powerup:
 
 				powerupController.UsePowerup();
+				break;
+
+			case State.PickPowerup:
+
+				Debug.DrawRay (transform.position, input, Color.red, .1f);
+				movementController.Move(input.x, input.y, speed);
 				break;
 
 		}
@@ -136,13 +182,13 @@ public class Enemy : LivingEntity {
 		DecideState();
 
 		//	Decidindo a direção que vamos
-		Vector3 finalTargetPos = target.position + (target.velocity);
+		Vector3 finalTargetPos = target.position + (target.velocity/10);
 
 		Vector3 direction = (target.position - transform.position);
 		Vector3 directionPredicted = difficulty < minDifficultyToPredict?(target.position - transform.position):(finalTargetPos - transform.position);
 
 		input = new Vector2(direction.x, direction.z);
-		inputPrediction = new Vector2(directionPredicted.x, directionPredicted.z);
+		inputPrediction = new Vector2(directionPredicted.x, directionPredicted.z);;
 
 	}
 	
@@ -174,9 +220,24 @@ public class Enemy : LivingEntity {
 
 		}
 
-		Vector3 oneSecondFuturePosition = (transform.position + rb.velocity);
+		/*//	Verifica se existe um pickup force disponível
+		foreach (Collectable collectable in collectables){
+			if (collectable.pickupAvaiable && collectable.actualPowerup == (int)Powerup.Powerups.Reflection){
 
-		if (!Physics.Raycast(oneSecondFuturePosition, -Vector3.up, Mathf.Infinity, obstacleMask)){
+				// Caso haja um force ele muda o target para a force
+				target.position = collectable.transform.position;
+				target.velocity = Vector3.zero;
+				target.state = (int)Powerup.Powerups.None;
+				enemyState = State.PickPowerup;
+				return;
+
+			}
+		}*/
+
+		
+		futurePosition = (transform.position + (rb.velocity/3));
+
+		if (!Physics.Raycast(futurePosition, -Vector3.up, Mathf.Infinity, obstacleMask)){
 
 			enemyState = State.Desengage;
 			return;

@@ -297,6 +297,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114574303831398634, guid: 2579420d8c66c4866868b0c6ffbef970,
+        type: 2}
+      propertyPath: difficulty
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2579420d8c66c4866868b0c6ffbef970, type: 2}
   m_IsPrefabParent: 0
