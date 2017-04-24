@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: fe9752ded546d4f9fa3f924d49b1d599
+timeCreated: 1493076825
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: TimeBurner
+  fontNames:
+  - TimeBurner
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a63b12383ca504997ac4cc731dee5928, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
