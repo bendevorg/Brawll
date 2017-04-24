@@ -5,7 +5,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour {
 
 	//	Jogar isso pro game controller
-	public enum Powerups {None = -1, Zhonya = 0};
+	public enum Powerups {None = -1, Zhonya = 0, Reflection = 1};
 	public enum States {None = -1, Zhonya = 0};
 
 	Powerups actualPowerup = Powerups.None;
@@ -22,6 +22,9 @@ public class Powerup : MonoBehaviour {
 	public float zhonyaDuration = 2f;
 	[HideInInspector]
 	public float forceMultiplier = 1f;
+
+	//	Reflection Special
+	public GameObject reflectionSpecial;
 
 	Rigidbody rb;
 	Renderer rend;
@@ -54,6 +57,12 @@ public class Powerup : MonoBehaviour {
 
 				StartCoroutine(Zhonya());
 				actualPowerup = Powerups.None;
+				break;
+
+			case Powerups.Reflection:
+				GameObject specialInstance = Instantiate(reflectionSpecial, transform.position, Quaternion.identity) as GameObject;
+				SpecialController specialController = specialInstance.GetComponent<SpecialController>();
+				specialController.caster = this.gameObject;
 				break;
 
 			case Powerups.None:

@@ -128,6 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zhonyaDuration: 2
   forceMultiplier: 1
+  reflectionSpecial: {fileID: 1000011466215742, guid: 0ff8e5d0989824b94b8c4a218d7de097,
+    type: 2}
 --- !u!114 &114817806229865582
 MonoBehaviour:
   m_ObjectHideFlags: 1
