@@ -63,6 +63,7 @@ public class Powerup : MonoBehaviour {
 				GameObject specialInstance = Instantiate(reflectionSpecial, transform.position, Quaternion.identity) as GameObject;
 				SpecialController specialController = specialInstance.GetComponent<SpecialController>();
 				specialController.caster = this.gameObject;
+				actualPowerup = Powerups.None;
 				break;
 
 			case Powerups.None:

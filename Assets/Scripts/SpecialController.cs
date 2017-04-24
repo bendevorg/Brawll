@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpecialController : MonoBehaviour {
 
@@ -9,9 +10,13 @@ public class SpecialController : MonoBehaviour {
 	public float power;
 	public GameObject caster;
 
+	HashSet<GameObject> collidedEnemies = new HashSet<GameObject>();
+
 	void Start () {
 
 		StartSpecial();
+
+		collidedEnemies.Add(caster);
 
 	}
 
@@ -41,12 +46,16 @@ public class SpecialController : MonoBehaviour {
 
 		if (tag == "Enemy" || tag == "Player"){
 
-			if(collider.gameObject != caster) {
+			if(!collidedEnemies.Contains(collider.gameObject)) {
+
+				collidedEnemies.Add(collider.gameObject);
+
 				CameraShaker.Shake(0.2f, 0.2f);
 				Rigidbody rb = collider.GetComponent<Rigidbody>();
 				Vector3 direction = (collider.transform.position - transform.position).normalized;
 				Vector3 knockback = direction * power;
 				rb.AddForce(knockback, ForceMode.Impulse);
+
 			}
 		}
 	}
