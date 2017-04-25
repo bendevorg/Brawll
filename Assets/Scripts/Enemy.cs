@@ -43,7 +43,7 @@ public class Enemy : LivingEntity {
 
 	float maxYDistanceToHit;
 	public float minDistanceToDash = 2.5f;
-	float impossibleDodgeDistanceDash = 0.3f;
+	float impossibleDodgeDistanceDash = 0.25f;
 
 	Vector3 futurePosition;
 	float safeDistance = 2.7f;
