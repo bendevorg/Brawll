@@ -64,7 +64,7 @@ using UnityEngine;
 	void Update () {
 
 		//	TODO: REMOVER ISSO
-		if (Input.GetKeyDown(KeyCode.Space)){
+		if (Input.GetKeyDown(KeyCode.Escape)){
 			RestartGame();
 		}
 
