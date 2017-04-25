@@ -9,7 +9,7 @@ public class GameUI : MonoBehaviour {
 	public Text dashText;
 	public Text powerupText;
 
-	string[] powerups = {"", "Intagible", "Force"};
+	string[] powerups = {"", "Intangible", "Force"};
 
 	public void SetDashText(float timeRemainingToDash){
 
