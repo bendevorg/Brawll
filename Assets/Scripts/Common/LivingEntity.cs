@@ -7,15 +7,22 @@ public class LivingEntity : MonoBehaviour {
 
 	[Range(1, 1000)]
 	public int life = 1;
-	public float speed = 10;
-	public float dashForce = 10;
+	public float speed = 25;
+	public float dashForce = 25;
 
-	public float dashCooldown = 3f;
+	public float dashCooldown = 2f;
+	public float enemyRandomCooldown = .2f;
+	float randomCooldown = 0f;
+
 	float timeToDash = 0f;
 	bool canDash = true;
 
 	public event Action<GameObject> OnEntityDeath;
 	public ParticleSystem deathEffect;
+
+	public virtual void Start(){
+		if (this.tag == "Enemy") randomCooldown = enemyRandomCooldown;
+	}
 
 	public virtual void Update(){
 
@@ -35,7 +42,7 @@ public class LivingEntity : MonoBehaviour {
 
 	public void UseDash(){
 
-		timeToDash = Time.time + dashCooldown;
+		timeToDash = Time.time + dashCooldown + UnityEngine.Random.Range(-randomCooldown, randomCooldown);
 
 		canDash = false;
 

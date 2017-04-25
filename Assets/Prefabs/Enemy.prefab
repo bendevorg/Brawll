@@ -114,7 +114,8 @@ MonoBehaviour:
   life: 1
   speed: 25
   dashForce: 25
-  dashCooldown: 2
+  dashCooldown: 1.8
+  enemyRandomCooldown: 0.2
   deathEffect: {fileID: 198112035631573074, guid: 10d8fc613eb02476a99bc9cdf57679f9,
     type: 2}
   obstacleMask:
@@ -143,7 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zhonyaDuration: 2
   forceMultiplier: 1
-  reflectionSpecial: {fileID: 0}
+  reflectionSpecial: {fileID: 1000011466215742, guid: 0ff8e5d0989824b94b8c4a218d7de097,
+    type: 2}
 --- !u!114 &114820587702351502
 MonoBehaviour:
   m_ObjectHideFlags: 1

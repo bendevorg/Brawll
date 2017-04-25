@@ -42,7 +42,7 @@ public class Enemy : LivingEntity {
 	State enemyState;
 
 	float maxYDistanceToHit;
-	public float minDistanceToDash = 3f;
+	public float minDistanceToDash = 2.5f;
 	float impossibleDodgeDistanceDash = 0.3f;
 
 	Vector3 futurePosition;
@@ -196,6 +196,7 @@ public class Enemy : LivingEntity {
 
 		int instakillValue = Random.Range(1, 11);
 		int zhonyasValue = Random.Range(1, 11);
+		int forcevalue = Random.Range(1, 11);
 		int dashValue = Random.Range(1, 11);
 		
 		//	Kill certo
@@ -211,7 +212,7 @@ public class Enemy : LivingEntity {
 		if (Physics.Raycast(target.position, target.velocity, target.distance, playerMask)) {
 
 			//	Zhonyas
-			if (target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya && zhonyasValue <= zhonyasChance) {
+			if (target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && ((powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya && zhonyasValue <= zhonyasChance) || (powerupController.GetPowerup() == (int)Powerup.Powerups.Reflection && forcevalue <= forceChance))) {
 
 				enemyState = State.Powerup;
 				return;
@@ -235,7 +236,7 @@ public class Enemy : LivingEntity {
 		}*/
 
 		
-		futurePosition = (transform.position + (rb.velocity/3));
+		futurePosition = (transform.position + (rb.velocity/4));
 
 		if (!Physics.Raycast(futurePosition, -Vector3.up, Mathf.Infinity, obstacleMask)){
 
@@ -244,7 +245,7 @@ public class Enemy : LivingEntity {
 
 		}
 
-		if (target.distance <= minDistanceToDash){
+		if (target.distance <= minDistanceToDash && dashValue <= dashChance){
 
 			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && CanDash() && dashValue <= dashChance && target.state != (int)Powerup.States.Zhonya) {
 
