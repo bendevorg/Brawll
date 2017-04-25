@@ -63,6 +63,7 @@ public class Powerup : MonoBehaviour {
 				GameObject specialInstance = Instantiate(reflectionSpecial, transform.position, Quaternion.identity) as GameObject;
 				SpecialController specialController = specialInstance.GetComponent<SpecialController>();
 				specialController.caster = this.gameObject;
+				AudioManager.instance.PlaySound("Force");
 				actualPowerup = Powerups.None;
 				break;
 
