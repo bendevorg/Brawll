@@ -70,9 +70,7 @@ public class Enemy : LivingEntity {
 			instakillChance /= handicap;
 			dashChance /= handicap;
 		}
-		
-		speed /=  handicap;
-		dashForce /= handicap;
+	
 		minDistanceToDash += handicap;
 
 		if (difficulty - 1 <= enemyColors.Length - 1){
@@ -107,12 +105,6 @@ public class Enemy : LivingEntity {
 
 	}
 
-	public override void Update(){
-
-		base.Update();
-
-	}
-
 	void FixedUpdate(){
 
 		DecideNextMovement();
@@ -130,20 +122,19 @@ public class Enemy : LivingEntity {
 
 					powerupController.UsePowerup();
 
-					} else if (CanDash()){
+					} else if (movementController.CanDash()){
 
-						UseDash();
-						movementController.Dash(input.x, input.y, dashForce);
+						movementController.Dash(input.x, input.y, 1/handicap);
 
 					} else {
 
-						movementController.Move(input.x, input.y, speed);
+						movementController.Move(input.x, input.y, 1/handicap);
 
 					}
 
 				} else {
 
-					movementController.Move(input.x, input.y, speed);
+					movementController.Move(input.x, input.y, 1/handicap);
 
 				}
 
@@ -151,13 +142,13 @@ public class Enemy : LivingEntity {
 
 			case State.Dash:
 
-				movementController.Dash(input.x, input.y, dashForce);
+				movementController.Dash(input.x, input.y, 1/handicap);
 				break;
 
 			case State.Engage:
 
 				// Debug.DrawLine (transform.position, (Vector2)transform.position + input * 10, Color.red, Mathf.Infinity);
-				movementController.Move(inputPrediction.x, inputPrediction.y, speed);
+				movementController.Move(inputPrediction.x, inputPrediction.y, 1/handicap);
 				break;
 
 			case State.Powerup:
@@ -168,7 +159,7 @@ public class Enemy : LivingEntity {
 			case State.PickPowerup:
 
 				Debug.DrawRay (transform.position, input, Color.red, .1f);
-				movementController.Move(input.x, input.y, speed);
+				movementController.Move(input.x, input.y, 1/handicap);
 				break;
 
 		}
@@ -200,10 +191,9 @@ public class Enemy : LivingEntity {
 		int dashValue = Random.Range(1, 11);
 		
 		//	Kill certo
-		if (target.distance <= impossibleDodgeDistanceDash && CanDash() && instakillValue <= instakillChance && target.state != (int)Powerup.States.Zhonya){
+		if (target.distance <= impossibleDodgeDistanceDash && movementController.CanDash() && instakillValue <= instakillChance && target.state != (int)Powerup.States.Zhonya){
 
 			enemyState = State.Dash;
-			UseDash();
 			return;
 
 		}
@@ -247,10 +237,9 @@ public class Enemy : LivingEntity {
 
 		if (target.distance <= minDistanceToDash && dashValue <= dashChance){
 
-			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && CanDash() && dashValue <= dashChance && target.state != (int)Powerup.States.Zhonya) {
+			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && movementController.CanDash() && dashValue <= dashChance && target.state != (int)Powerup.States.Zhonya) {
 
 				enemyState = State.Dash;
-				UseDash();
 				return;
 
 			}
@@ -293,12 +282,6 @@ public class Enemy : LivingEntity {
 
 			}
 		}
-	}
-
-	bool CanDash(){
-
-		return IsOffCooldown() && !(powerupController.GetState() == (int)Powerup.Powerups.Zhonya);
-
 	}
 
 	public struct Player{

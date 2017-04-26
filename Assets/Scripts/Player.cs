@@ -8,8 +8,10 @@ public class Player : LivingEntity {
 
 	private Movement movementController;
 	private Powerup powerupController;
+
 	private float moveHorizontal;
 	private float moveVertical;
+	
 	private bool willDash;
 	private bool usePowerup;
 
@@ -29,13 +31,12 @@ public class Player : LivingEntity {
 
 	}
 
-	public override void Update() {
+	void Update() {
 
-		base.Update();
 		moveHorizontal = Input.GetAxisRaw(actualPlayerInputs[0]);
 		moveVertical = Input.GetAxisRaw(actualPlayerInputs[1]);
 
-		willDash = Input.GetButtonDown(actualPlayerInputs[2]) && CanDash();
+		willDash = Input.GetButtonDown(actualPlayerInputs[2]);
 		usePowerup = Input.GetButtonDown(actualPlayerInputs[3]);
 
 		if (usePowerup) {
@@ -44,22 +45,16 @@ public class Player : LivingEntity {
 			GameController.gameController.SetPowerupText((int)Powerup.Powerups.None, this.tag);
 
 		}
-
 	}
 	
 	void FixedUpdate () {
 
-		movementController.Move(moveHorizontal, moveVertical, speed * powerupController.forceMultiplier);
-		if (willDash && CanDash()) {
-			UseDash();
-			movementController.Dash(moveHorizontal, moveVertical, dashForce * powerupController.forceMultiplier);
+		movementController.Move(moveHorizontal, moveVertical, 1f);
+
+		if (willDash) {
+
+			movementController.Dash(moveHorizontal, moveVertical, 1f);
+
 		}
 	}
-
-	bool CanDash(){
-
-		return IsOffCooldown() && !(powerupController.GetState() == (int)Powerup.Powerups.Zhonya);
-
-	}
-
 }
