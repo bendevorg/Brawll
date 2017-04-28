@@ -20,7 +20,6 @@ public class Enemy : LivingEntity {
 	Renderer rend;
 
 	//	Difficulty parameter variables
-
 	[RangeAttribute(1, 5)]
 	int difficulty = 1;
 	int minDifficultyToPredict = 4;
@@ -93,31 +92,7 @@ public class Enemy : LivingEntity {
 
 			case Behavior.Desengage:
 
-				Vector3 direction = (ground.position - transform.position);
-				input = new Vector2(direction.x, direction.z);
-
-				if (Vector3.Distance(transform.position, futurePosition) > safeDistance){
-
-					if (powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya){
-
-					powerupController.UsePowerup();
-
-					} else if (movementController.CanDash()){
-
-						movementController.Dash(input.x, input.y, 1/handicap);
-
-					} else {
-
-						movementController.Move(input.x, input.y, 1/handicap);
-
-					}
-
-				} else {
-
-					movementController.Move(input.x, input.y, 1/handicap);
-
-				}
-
+				Desengage();
 				break;
 
 			case Behavior.Dash:
@@ -138,7 +113,6 @@ public class Enemy : LivingEntity {
 
 			case Behavior.PickPowerup:
 
-				Debug.DrawRay (transform.position, input, Color.red, .1f);
 				movementController.Move(input.x, input.y, 1/handicap);
 				break;
 
@@ -170,8 +144,6 @@ public class Enemy : LivingEntity {
 
 				target.distance = int.MaxValue;
 
-				player.UpdatePlayerPosition();
-
 				float playerDistance = Vector3.Distance(transform.position, player.GetPosition());
 
 				if (playerDistance < target.distance) {
@@ -187,14 +159,9 @@ public class Enemy : LivingEntity {
 	}
 	
 	public void DecideBehavior(){
-
-		int instakillValue = Random.Range(1, 11);
-		int zhonyasValue = Random.Range(1, 11);
-		int forcevalue = Random.Range(1, 11);
-		int dashValue = Random.Range(1, 11);
 		
 		//	Kill certo
-		if (target.distance <= impossibleDodgeDistanceDash && movementController.CanDash() && instakillValue <= instakillChance && target.state != (int)LivingEntity.State.Zhonya){
+		if (IsInstakillAvaiable()){
 
 			enemyBehavior = Behavior.Dash;
 			return;
@@ -202,55 +169,94 @@ public class Enemy : LivingEntity {
 		}
 
 		//	Verifica se o inimigo mais próximo está vindo na minha direção
-		if (Physics.Raycast(target.position, target.velocity, target.distance, playerMask)) {
+		if (IsUnderAttack()) {
 
 			//	Zhonyas
-			if (target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && ((powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya && zhonyasValue <= zhonyasChance) || (powerupController.GetPowerup() == (int)Powerup.Powerups.Reflection && forcevalue <= forceChance))) {
+			if (IsDefensivePowerupAvaiable()) {
 
 				enemyBehavior = Behavior.Powerup;
 				return;
 
 			}
-
 		}
 
-		/*//	Verifica se existe um pickup force disponível
-		foreach (Collectable collectable in collectables){
-			if (collectable.pickupAvaiable && collectable.actualPowerup == (int)Powerup.Powerups.Reflection){
-
-				// Caso haja um force ele muda o target para a force
-				target.position = collectable.transform.position;
-				target.velocity = Vector3.zero;
-				target.state = (int)Powerup.Powerups.None;
-				enemyState = State.PickPowerup;
-				return;
-
-			}
-		}*/
-
-		
-		futurePosition = (transform.position + (rb.velocity/4));
-
-		if (!Physics.Raycast(futurePosition, -Vector3.up, Mathf.Infinity, obstacleMask)){
+		if (IsGoingOffGround()){
 
 			enemyBehavior = Behavior.Desengage;
 			return;
 
 		}
 
-		if (target.distance <= minDistanceToDash && dashValue <= dashChance){
+		if (IsDashAvaiable()){
 
-			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && movementController.CanDash() && dashValue <= dashChance && target.state != (int)LivingEntity.State.Zhonya) {
-
-				enemyBehavior = Behavior.Dash;
-				return;
-
-			}
+			enemyBehavior = Behavior.Dash;
+			return;
+			
 		}
 
 		enemyBehavior = Behavior.Engage;
 		return;
 
+	}
+
+	bool IsUnderAttack(){
+
+		//	Add velocity check
+		return Physics.Raycast(target.position, target.velocity, target.distance, playerMask);
+	
+	}
+
+	bool IsGoingOffGround(){
+
+		futurePosition = (transform.position + (rb.velocity/4));
+		return !Physics.Raycast(futurePosition, -Vector3.up, Mathf.Infinity, obstacleMask);
+
+	}
+
+	bool IsInstakillAvaiable(){
+
+		return target.distance <= impossibleDodgeDistanceDash && movementController.CanDash() && Random.Range(1, 11) <= instakillChance && target.state != (int)LivingEntity.State.Zhonya;
+	
+	}
+
+	bool IsDefensivePowerupAvaiable(){
+
+		return target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && ((powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya && Random.Range(1, 11) <= zhonyasChance) || (powerupController.GetPowerup() == (int)Powerup.Powerups.Reflection && Random.Range(1, 11) <= forceChance));
+	
+	}
+
+	bool IsDashAvaiable(){
+
+		return target.distance <= minDistanceToDash && Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && movementController.CanDash() && Random.Range(1, 11) <= dashChance && target.state != (int)LivingEntity.State.Zhonya;
+	
+	}
+
+	void Desengage(){
+
+		Vector3 direction = (ground.position - transform.position);
+		input = new Vector2(direction.x, direction.z);
+
+		if (Vector3.Distance(transform.position, futurePosition) > safeDistance){
+
+			if (powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya){
+
+				powerupController.UsePowerup();
+
+			} else if (movementController.CanDash()){
+
+				movementController.Dash(input.x, input.y, 1/handicap);
+
+			} else {
+
+				movementController.Move(input.x, input.y, 1/handicap);
+
+			}
+
+		} else {
+
+			movementController.Move(input.x, input.y, 1/handicap);
+
+		}	
 	}
 
 	public struct Target{
@@ -261,5 +267,4 @@ public class Enemy : LivingEntity {
 		public int state;
 
 	}
-
 }

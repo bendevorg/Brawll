@@ -83,7 +83,7 @@ using System;
 
 	public void InsertEntity(LivingEntity livingEntity){
 
-			players.Add(new Player(livingEntity.GetComponent<LivingEntity>(), livingEntity.transform.position, livingEntity.GetComponent<Rigidbody>()));
+			players.Add(new Player(livingEntity.GetComponent<LivingEntity>(), livingEntity.GetComponent<Rigidbody>()));
 			livingEntity.GetComponent<LivingEntity>().OnEntityDeath += RemoveEntity;
 
 			if (livingEntity.tag == "Player") playersActiveAmount++;
@@ -315,19 +315,13 @@ using System;
 	public struct Player{
 
 		LivingEntity entity;
-		Vector3 position;
 		Rigidbody rb;
 
-		public Player(LivingEntity _entity, Vector3 _position, Rigidbody _rb){
+		public Player(LivingEntity _entity, Rigidbody _rb){
 
 			entity = _entity;
-			position = _position;
 			rb = _rb;
 
-		}
-
-		public void UpdatePlayerPosition(){
-			position = entity.transform.position;
 		}
 
 		public LivingEntity GetLivingEntity(){
@@ -335,7 +329,7 @@ using System;
 		}
 
 		public Vector3 GetPosition(){
-			return position;
+			return entity.transform.position;
 		}
 
 		public Vector3 GetVelocity(){
