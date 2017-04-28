@@ -143,6 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f6358beecbc466ea39a26848e0cdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zhonya: {fileID: 0}
+  bulk: {fileID: 0}
   reflectionSpecial: {fileID: 1000011466215742, guid: 0ff8e5d0989824b94b8c4a218d7de097,
     type: 2}
 --- !u!114 &114817806229865582

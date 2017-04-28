@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour {
 	bool canPlayImpact = true;
 	float timeToPlayImpact = 0f;
 
-	void Awake() {
+	void Start() {
 
 		if(instance != null) {
 			Destroy(gameObject);

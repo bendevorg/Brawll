@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 	public class GameController : MonoBehaviour {
 
@@ -22,7 +23,6 @@ using UnityEngine;
 	public GameObject gameUI;
 	GameUI gameUIController; 
 
-
 	//	Endless variables
 	public Wave[] waves;
 	[HideInInspector]
@@ -38,6 +38,13 @@ using UnityEngine;
 
 	//	Single match variables
 	int amountOfEnemiesSingleMatch = 0;
+
+	//	Players and enemies management
+	public event Action<LivingEntity> OnEntitySpawn;
+	public List<Player> players = new List<Player>();
+
+	int playersActiveAmount = 0;
+	int enemiesActiveAmount = 0;
 
 	[HideInInspector]
 	public bool gameOver = false;
@@ -74,19 +81,74 @@ using UnityEngine;
 		
 	}
 
-	public void PlayerDied(string tag){
+	public void InsertEntity(LivingEntity livingEntity){
+
+			players.Add(new Player(livingEntity.GetComponent<LivingEntity>(), livingEntity.transform.position, livingEntity.GetComponent<Rigidbody>()));
+			livingEntity.GetComponent<LivingEntity>().OnEntityDeath += RemoveEntity;
+
+			if (livingEntity.tag == "Player") playersActiveAmount++;
+			if (livingEntity.tag == "Enemy") enemiesActiveAmount++;
+
+	}
+
+	public void RemoveEntity(LivingEntity livingEntity){
+
+		//	Melhorar isso
+		foreach(Player player in players){
+
+			if (player.GetLivingEntity() == livingEntity){
+
+				players.Remove(player);
+				break;
+
+			}
+		}
+
+		if (livingEntity.tag == "Player") playersActiveAmount--;
+		if (livingEntity.tag == "Enemy") enemiesActiveAmount--;
+
+		Debug.Log(playersActiveAmount);
 
 		if (!gameOver){
 
-			GameObject[] entity = GameObject.FindGameObjectsWithTag(tag);
+			if (playersActiveAmount <= 0){
 
-			if (tag == "Player"){
+				gameOver = true;
+				restartUI.SetActive(true);
+				return;
 
-				if (entity.Length <= 1){
+			} else if (enemiesActiveAmount <= 0){
+
+				if (gameMode == GameMode.Endless) {
+
+					NextWave();
+
+				} else {
 
 					gameOver = true;
-					restartUI.SetActive(true);
-					return;
+
+					if (gameMode == GameMode.Campaign){
+
+						if (difficulty >= maxDifficulty){
+
+							endUI.SetActive(true);
+							difficulty = 1;
+
+							return;
+
+						}
+
+						difficulty++;
+						nextUI.SetActive(true);
+						StartCoroutine(NextLevel());
+						return; 
+
+					} else {
+
+						endUI.SetActive(true);
+						return;
+
+					}
 
 				}
 
@@ -97,43 +159,6 @@ using UnityEngine;
 					enemiesRemaining--;
 					endlessUIController.ChangeEnemiesRemainingText(enemiesRemaining);
 
-				}
-
-				if (entity.Length <= 1){
-
-					if (gameMode == GameMode.Endless){
-
-						if (enemiesRemaining <= 0){
-							NextWave();
-						}		
-
-					} else {
-
-						gameOver = true;
-
-						if (gameMode == GameMode.Campaign){
-
-							if (difficulty >= maxDifficulty){
-
-								endUI.SetActive(true);
-								difficulty = 1;
-
-								return;
-
-							}
-
-							difficulty++;
-							nextUI.SetActive(true);
-							StartCoroutine(NextLevel());
-							return; 
-
-						} else {
-
-							endUI.SetActive(true);
-							return;
-
-						}
-					}
 				}
 			}
 		}
@@ -149,6 +174,10 @@ using UnityEngine;
 
 		DeactivateAllUI();
 		gameOver = false;
+
+		players.Clear();
+		playersActiveAmount = 0;
+		enemiesActiveAmount = 0;
 
 		if (!(gameMode == GameMode.Campaign)){
 
@@ -181,6 +210,10 @@ using UnityEngine;
 	}
 
 	public void RestartGame(){
+
+		players.Clear();
+		playersActiveAmount = 0;
+		enemiesActiveAmount = 0;
 
 		gameOver = false;
 		DeactivateAllUI();
@@ -260,6 +293,15 @@ using UnityEngine;
 
 	}
 
+	//	Retirar a verificação de tag
+	public void SetDashText(float timeRemainingToDash, string tag){
+		if (tag == "Player") gameUIController.SetDashText(timeRemainingToDash);
+	}
+
+	public void SetPowerupText(int powerup, string tag){
+		if (tag == "Player") gameUIController.SetPowerupText(powerup);
+	}
+
 	[System.SerializableAttribute]
 	public struct Wave{
 
@@ -270,14 +312,40 @@ using UnityEngine;
 
 	}
 
-	//	Retirar a verificação de tag
+	public struct Player{
 
-	public void SetDashText(float timeRemainingToDash, string tag){
-		if (tag == "Player") gameUIController.SetDashText(timeRemainingToDash);
-	}
+		LivingEntity entity;
+		Vector3 position;
+		Rigidbody rb;
 
-	public void SetPowerupText(int powerup, string tag){
-		if (tag == "Player") gameUIController.SetPowerupText(powerup);
+		public Player(LivingEntity _entity, Vector3 _position, Rigidbody _rb){
+
+			entity = _entity;
+			position = _position;
+			rb = _rb;
+
+		}
+
+		public void UpdatePlayerPosition(){
+			position = entity.transform.position;
+		}
+
+		public LivingEntity GetLivingEntity(){
+			return entity;
+		}
+
+		public Vector3 GetPosition(){
+			return position;
+		}
+
+		public Vector3 GetVelocity(){
+			return rb.velocity;
+		}
+
+		public int GetState(){
+			return (int)entity.GetState();
+		}
+
 	}
 
 }

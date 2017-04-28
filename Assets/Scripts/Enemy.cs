@@ -13,23 +13,19 @@ public class Enemy : LivingEntity {
 	public LayerMask playerMask;
 	Transform ground;
 
-	private List<Player> players = new List<Player>();
-	//private List<Collectable> collectables = new List<Collectable>();
 	Target target;
-
-	Vector2 input = Vector2.zero;
-	Vector2 inputPrediction = Vector2.zero;
 
 	SphereCollider sphereCollider;
 	Rigidbody rb;
 	Renderer rend;
+
+	//	Difficulty parameter variables
 
 	[RangeAttribute(1, 5)]
 	int difficulty = 1;
 	int minDifficultyToPredict = 4;
 	bool decisionHandicap = false;
 
-	//	Parametros de dificuldades
 	float zhonyasChance = 10;
 	float forceChance = 10;
 	float instakillChance = 10;
@@ -38,15 +34,20 @@ public class Enemy : LivingEntity {
 
 	public Color[] enemyColors;
 
+	//	Behavior variables
 	enum Behavior {Engage, Dash, Desengage, Powerup, PickPowerup};
 	Behavior enemyBehavior;
 
+	//	Decision variables
 	float maxYDistanceToHit;
 	public float minDistanceToDash = 2.5f;
 	float impossibleDodgeDistanceDash = 0.25f;
 
 	Vector3 futurePosition;
 	float safeDistance = 2.7f;
+
+	Vector2 input = Vector2.zero;
+	Vector2 inputPrediction = Vector2.zero;
 
 	// Use this for initialization
 	void Start () {
@@ -81,26 +82,6 @@ public class Enemy : LivingEntity {
 
 		//	Se a sphere mudar de tamanho online mudar isso para um update
 		maxYDistanceToHit = sphereCollider.radius;
-
-		// 	TODO: TUDO ISSO ABAIXO DEVERIA TER EM ALGO ESTÁTICO
-		List<GameObject> livingEntities = new List<GameObject>();
-		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Player"));
-
-		foreach (GameObject livingEntity in livingEntities){
-
-			if (livingEntity != this.gameObject) players.Add(new Player(livingEntity.GetComponent<LivingEntity>(), livingEntity.transform.position, livingEntity.GetComponent<Rigidbody>()));
-			livingEntity.GetComponent<LivingEntity>().OnEntityDeath += RemoveEntity;
-
-		}
-
-		//	Pega todos os collectables do map
-		/*List<GameObject> collectablesGameObject = new List<GameObject>();
-		collectablesGameObject.AddRange(GameObject.FindGameObjectsWithTag("Collectable"));
-
-		foreach (GameObject collectable in collectablesGameObject){
-			collectables.Add(collectable.GetComponent<Collectable>());
-		}*/
 
 	}
 
@@ -168,7 +149,6 @@ public class Enemy : LivingEntity {
 	public void DecideNextMovement(){
 
 		DecideTarget();
-
 		DecideBehavior();
 
 		//	Decidindo a direção que vamos
@@ -180,6 +160,30 @@ public class Enemy : LivingEntity {
 		input = new Vector2(direction.x, direction.z);
 		inputPrediction = new Vector2(directionPredicted.x, directionPredicted.z);
 
+	}
+
+	void DecideTarget(){
+
+		foreach (GameController.Player player in GameController.gameController.players) {
+
+			if (player.GetLivingEntity() != this){
+
+				target.distance = int.MaxValue;
+
+				player.UpdatePlayerPosition();
+
+				float playerDistance = Vector3.Distance(transform.position, player.GetPosition());
+
+				if (playerDistance < target.distance) {
+
+					target.distance = playerDistance;
+					target.position = player.GetPosition();
+					target.velocity = player.GetVelocity();
+					target.state = player.GetState();
+
+				}
+			}		
+		}
 	}
 	
 	public void DecideBehavior(){
@@ -246,76 +250,6 @@ public class Enemy : LivingEntity {
 
 		enemyBehavior = Behavior.Engage;
 		return;
-
-	}
-
-	void DecideTarget(){
-
-		foreach (Player player in players) {
-
-			target.distance = int.MaxValue;
-
-			player.UpdatePlayerPosition();
-
-			float playerDistance = Vector3.Distance(transform.position, player.GetPosition());
-
-			if (playerDistance < target.distance) {
-
-				target.distance = playerDistance;
-				target.position = player.GetPosition();
-				target.velocity = player.GetVelocity();
-				target.state = player.GetState();
-
-			}
-		}
-	}
-
-	public void RemoveEntity(LivingEntity livingEntity){
-
-		foreach(Player player in players){
-
-			if (player.GetLivingEntity() == livingEntity){
-
-				players.Remove(player);
-				return;
-
-			}
-		}
-	}
-
-	public struct Player{
-
-		LivingEntity entity;
-		Vector3 position;
-		Rigidbody rb;
-
-		public Player(LivingEntity _entity, Vector3 _position, Rigidbody _rb){
-
-			entity = _entity;
-			position = _position;
-			rb = _rb;
-
-		}
-
-		public void UpdatePlayerPosition(){
-			position = entity.transform.position;
-		}
-
-		public LivingEntity GetLivingEntity(){
-			return entity;
-		}
-
-		public Vector3 GetPosition(){
-			return position;
-		}
-
-		public Vector3 GetVelocity(){
-			return rb.velocity;
-		}
-
-		public int GetState(){
-			return (int)entity.GetState();
-		}
 
 	}
 
