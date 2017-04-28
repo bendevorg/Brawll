@@ -15,6 +15,7 @@ using System;
 	public bool trueMode = false;
 	int maxDifficulty = 5;
 
+	//	UI variables
 	public GameObject restartUI;
 	public GameObject nextUI;
 	public GameObject endUI;
@@ -37,7 +38,7 @@ using System;
 	int wave = 0;
 
 	//	Single match variables
-	int amountOfEnemiesSingleMatch = 0;
+	int singleMatchEnemiesAmount;
 
 	//	Players and enemies management
 	public event Action<LivingEntity> OnEntitySpawn;
@@ -91,7 +92,7 @@ using System;
 
 	}
 
-	public void RemoveEntity(LivingEntity livingEntity){
+	void RemoveEntity(LivingEntity livingEntity){
 
 		//	Melhorar isso
 		foreach(Player player in players){
@@ -107,100 +108,50 @@ using System;
 		if (livingEntity.tag == "Player") playersActiveAmount--;
 		if (livingEntity.tag == "Enemy") enemiesActiveAmount--;
 
-		Debug.Log(playersActiveAmount);
+		if (!gameOver) CheckGameStatus();
 
-		if (!gameOver){
+	}
 
-			if (playersActiveAmount <= 0){
+	void CheckGameStatus(){
 
-				gameOver = true;
-				restartUI.SetActive(true);
-				return;
+		if (playersActiveAmount <= 0){
 
-			} else if (enemiesActiveAmount <= 0){
+			GameOver(false);
+			return;
 
-				if (gameMode == GameMode.Endless) {
+		} 
+		
+		if (enemiesActiveAmount <= 0){
 
-					NextWave();
+			if (gameMode == GameMode.Endless) {
 
-				} else {
-
-					gameOver = true;
-
-					if (gameMode == GameMode.Campaign){
-
-						if (difficulty >= maxDifficulty){
-
-							endUI.SetActive(true);
-							difficulty = 1;
-
-							return;
-
-						}
-
-						difficulty++;
-						nextUI.SetActive(true);
-						StartCoroutine(NextLevel());
-						return; 
-
-					} else {
-
-						endUI.SetActive(true);
-						return;
-
-					}
-
-				}
+				NextWave();
 
 			} else {
 
-				if (gameMode == GameMode.Endless){
+				GameOver(true);
 
-					enemiesRemaining--;
-					endlessUIController.ChangeEnemiesRemainingText(enemiesRemaining);
+			}
 
-				}
+		} else {
+
+			if (gameMode == GameMode.Endless){
+
+				enemiesRemaining--;
+				endlessUIController.ChangeEnemiesRemainingText(enemiesRemaining);
+
 			}
 		}
-	}
-
-	public void PauseGame(){
-
-		Time.timeScale = 1 - Time.timeScale;
 
 	}
 
 	public void StartGame(bool firstStart){
 
-		DeactivateAllUI();
-		gameOver = false;
+		ResetGameInfo();
 
-		players.Clear();
-		playersActiveAmount = 0;
-		enemiesActiveAmount = 0;
-
-		if (!(gameMode == GameMode.Campaign)){
-
-			if (gameMode == GameMode.Endless){
-
-				difficulty = 1;
-				wave = 0;
-
-				NextWave();
-
-				endlessUI.SetActive(true);
-
-			} else if (gameMode == GameMode.SingleMatch){
-
-				SetSingleMatch();
-
-			}
-
-		} else if (firstStart){
-
-			difficulty = 1;
-
-		}
+		if (gameMode == GameMode.Endless) SetEndlessMatch();
+		else if (gameMode == GameMode.SingleMatch) SetSingleMatch();
+		else if (firstStart) difficulty = 1; 
 
 		gameUI.SetActive(true);
 		SetDashText(0, "Player");
@@ -211,19 +162,60 @@ using System;
 
 	public void RestartGame(){
 
+		ResetGameInfo();
+		Application.LoadLevel(0);
+
+		//	Nao deveria deletar isso para score
+		Destroy(gameObject);
+	}
+
+	void ResetGameInfo(){
+
+		DeactivateAllUI();
+		gameOver = false;
+
 		players.Clear();
 		playersActiveAmount = 0;
 		enemiesActiveAmount = 0;
 
-		gameOver = false;
-		DeactivateAllUI();
-
-		Time.timeScale = 1;
-		Application.LoadLevel(0);
-		Destroy(gameObject);
 	}
 
-	public void DeactivateAllUI(){
+	void GameOver(bool won){
+
+		gameOver = true;
+
+		//	If player loses
+		if (!won){
+
+			restartUI.SetActive(true);
+			return;
+
+		}
+		
+		//	Check if there`s still game to go on
+		if (gameMode == GameMode.Campaign){
+
+			if (difficulty < maxDifficulty){
+
+				StartCoroutine(NextLevel());
+				return; 
+
+			}
+		}
+
+		//	Play won, end of game
+		endUI.SetActive(true);
+		return;
+
+	}
+
+	void PauseGame(){
+
+		Time.timeScale = 1 - Time.timeScale;
+
+	}
+
+	void DeactivateAllUI(){
 
 		restartUI.SetActive(false);
 		nextUI.SetActive(false);
@@ -231,6 +223,27 @@ using System;
 		endlessUI.SetActive(false);
 		gameUI.SetActive(false);
 
+	}
+
+	void SetEndlessMatch(){
+
+		wave = 0;
+		NextWave();
+		endlessUI.SetActive(true);
+
+	}
+
+	void SetSingleMatch(){
+		amountOfEnemiesToSpawn = singleMatchEnemiesAmount;
+	}
+
+	//	Retirar a verificação de tag
+	public void SetDashText(float timeRemainingToDash, string tag){
+		if (tag == "Player") gameUIController.SetDashText(timeRemainingToDash);
+	}
+
+	public void SetPowerupText(int powerup, string tag){
+		if (tag == "Player") gameUIController.SetPowerupText(powerup);
 	}
 
 	public void SetGamemode(int _gameMode){
@@ -247,11 +260,11 @@ using System;
 
 	}
 
-	public void SetEnemies(int _amountOfEnemiesSingleMatch){
-		amountOfEnemiesSingleMatch = _amountOfEnemiesSingleMatch;
+	public void SetEnemies(int _amountOfEnemiesToSpawn){
+		singleMatchEnemiesAmount = amountOfEnemiesToSpawn = _amountOfEnemiesToSpawn;
 	}
 	
-	public void NextWave(){
+	void NextWave(){
 
 		if (wave >= waves.Length){
 
@@ -275,6 +288,9 @@ using System;
 	
 	IEnumerator NextLevel(){
 
+		difficulty++;
+		nextUI.SetActive(true);
+
 		float nextLevelTime = 7f + Time.time;
 
 		while (nextLevelTime > Time.time){
@@ -285,21 +301,6 @@ using System;
 
 		StartGame(false);
 
-	}
-
-	public void SetSingleMatch(){
-
-		amountOfEnemiesToSpawn = amountOfEnemiesSingleMatch;
-
-	}
-
-	//	Retirar a verificação de tag
-	public void SetDashText(float timeRemainingToDash, string tag){
-		if (tag == "Player") gameUIController.SetDashText(timeRemainingToDash);
-	}
-
-	public void SetPowerupText(int powerup, string tag){
-		if (tag == "Player") gameUIController.SetPowerupText(powerup);
 	}
 
 	[System.SerializableAttribute]
