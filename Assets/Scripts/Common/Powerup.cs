@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Zhonya))]
 public class Powerup : MonoBehaviour {
 
 	//	Jogar isso pro game controller
 	public enum Powerups {None = -1, Zhonya = 0, Reflection = 1};
-	public enum States {None = -1, Zhonya = 0};
 
 	Powerups actualPowerup = Powerups.None;
-	States actualState = States.None;
 
 	/*public float bulkMass = 4f;
 	public float bulkSize = 4f;
@@ -19,25 +18,30 @@ public class Powerup : MonoBehaviour {
 	[RangeAttribute(0, 1)]
 	public float bulkSpeedPercentage = 0.2f;
 	*/
-	public float zhonyaDuration = 2f;
-	[HideInInspector]
-	public float forceMultiplier = 1f;
+
+	LivingEntity ownerEntity;
+
+	//	Zhonya Special
+	public Zhonya zhonya;
 
 	//	Reflection Special
 	public GameObject reflectionSpecial;
-
-	Rigidbody rb;
-	Renderer rend;
-	Collider col;
 
 	string collectableTag = "Collectable";
 
 	void Start(){
 
-		rb = GetComponent<Rigidbody>();
-		rend = GetComponent<Renderer>();
-		col = GetComponent<SphereCollider>();
+		ownerEntity = GetComponent<LivingEntity>();
+
+		zhonya = GetComponent<Zhonya>();
+
 		//bulkScale = new Vector3(bulkSize, bulkSize, bulkSize);
+
+	}
+
+	void Update(){
+
+		ownerEntity.actualState = zhonya.IsZhonyaActive()?LivingEntity.State.Zhonya:LivingEntity.State.None;
 
 	}
 
@@ -55,8 +59,7 @@ public class Powerup : MonoBehaviour {
 
 			case Powerups.Zhonya:
 
-				StartCoroutine(Zhonya());
-				actualPowerup = Powerups.None;
+				ActivateZhonya();
 				break;
 
 			case Powerups.Reflection:
@@ -64,7 +67,7 @@ public class Powerup : MonoBehaviour {
 				SpecialController specialController = specialInstance.GetComponent<SpecialController>();
 				specialController.caster = this.gameObject;
 				AudioManager.instance.PlaySound("Force");
-				actualPowerup = Powerups.None;
+				ResetPowerup();
 				break;
 
 			case Powerups.None:
@@ -74,14 +77,21 @@ public class Powerup : MonoBehaviour {
 
 	}
 
+	public void ActivateZhonya(){
+		
+		ResetPowerup();
+		zhonya.ActivateZhonya();
+
+	}
+
 	public int GetPowerup(){
 		return (int)actualPowerup;
 	}
 
-	public int GetState(){
-		return (int)actualState;
+	void ResetPowerup(){
+		actualPowerup = Powerups.None;
 	}
-
+	
 	void OnTriggerEnter(Collider other){
 
 		if (other.tag == collectableTag){
@@ -141,33 +151,4 @@ public class Powerup : MonoBehaviour {
 
 	}
 */
-
-	IEnumerator Zhonya(){
-
-		float zhonyaTime = zhonyaDuration + Time.time;
-
-		actualState = States.Zhonya;
-		rb.isKinematic = true;
-		col.enabled = false;
-
-		Color oldColor = rend.material.color;
-
-        rend.material.SetColor("_Color", Color.blue);
-
-		AudioManager.instance.PlaySound("Zhonyas");
-
-		while (zhonyaTime > Time.time){
-
-			yield return null;
-
-		}
-
-		rend.material.SetColor("_Color", oldColor);
-
-		rb.isKinematic = false;
-		col.enabled = true;
-		actualState = States.None;
-
-	}
-
 }

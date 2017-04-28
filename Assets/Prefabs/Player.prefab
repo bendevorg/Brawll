@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 54511053866396416}
   - component: {fileID: 114489376590728420}
   - component: {fileID: 114561085920731320}
+  - component: {fileID: 114240151940579026}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -100,6 +101,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 32
   m_CollisionDetection: 2
+--- !u!114 &114240151940579026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1285769892164158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd925b22e8aabb46beaa1c0446429bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zhonyaDuration: 2
+  forceMultiplier: 1
 --- !u!114 &114489376590728420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,6 +129,9 @@ MonoBehaviour:
     type: 2}
   dashEffect: {fileID: 198202687423670196, guid: 01cb2c6655e2c453085cdf729ecc0abc,
     type: 2}
+  speed: 25
+  dashForce: 25
+  dashCooldown: 2
 --- !u!114 &114561085920731320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,8 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f6358beecbc466ea39a26848e0cdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zhonyaDuration: 2
-  forceMultiplier: 1
   reflectionSpecial: {fileID: 1000011466215742, guid: 0ff8e5d0989824b94b8c4a218d7de097,
     type: 2}
 --- !u!114 &114817806229865582
@@ -142,10 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 1
-  speed: 15
-  dashForce: 35
-  dashCooldown: 2
-  enemyRandomCooldown: 0.2
+  actualState: -1
   deathEffect: {fileID: 198112035631573074, guid: 10d8fc613eb02476a99bc9cdf57679f9,
     type: 2}
   player1: 1

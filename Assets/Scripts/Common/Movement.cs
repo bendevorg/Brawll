@@ -16,9 +16,12 @@ public class Movement : MonoBehaviour {
 	float timeToDash = 0f;
 	bool dashOffCooldown = true;
 
+	LivingEntity ownerEntity;
+
 	void Awake () {
 
 		rb = GetComponent<Rigidbody>();
+		ownerEntity = GetComponent<LivingEntity>();
 
 	}
 
@@ -66,7 +69,7 @@ public class Movement : MonoBehaviour {
 	public bool CanDash(){
 
 		//	TODO: implementar eventos que bloqueiam o dash
-		return dashOffCooldown;
+		return dashOffCooldown && (ownerEntity.actualState != (int)LivingEntity.State.Zhonya);
 
 	}
 

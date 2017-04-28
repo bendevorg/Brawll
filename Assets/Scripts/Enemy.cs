@@ -82,7 +82,6 @@ public class Enemy : LivingEntity {
 		//	Se a sphere mudar de tamanho online mudar isso para um update
 		maxYDistanceToHit = sphereCollider.radius;
 
-
 		// 	TODO: TUDO ISSO ABAIXO DEVERIA TER EM ALGO ESTÁTICO
 		List<GameObject> livingEntities = new List<GameObject>();
 		livingEntities.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
@@ -90,7 +89,7 @@ public class Enemy : LivingEntity {
 
 		foreach (GameObject livingEntity in livingEntities){
 
-			if (livingEntity != this.gameObject) players.Add(new Player(livingEntity, livingEntity.transform.position, livingEntity.GetComponent<Rigidbody>(), livingEntity.GetComponent<Powerup>()));
+			if (livingEntity != this.gameObject) players.Add(new Player(livingEntity.GetComponent<LivingEntity>(), livingEntity.transform.position, livingEntity.GetComponent<Rigidbody>()));
 			livingEntity.GetComponent<LivingEntity>().OnEntityDeath += RemoveEntity;
 
 		}
@@ -179,7 +178,7 @@ public class Enemy : LivingEntity {
 		Vector3 directionPredicted = difficulty < minDifficultyToPredict?(target.position - transform.position):(finalTargetPos - transform.position);
 
 		input = new Vector2(direction.x, direction.z);
-		inputPrediction = new Vector2(directionPredicted.x, directionPredicted.z);;
+		inputPrediction = new Vector2(directionPredicted.x, directionPredicted.z);
 
 	}
 	
@@ -191,7 +190,7 @@ public class Enemy : LivingEntity {
 		int dashValue = Random.Range(1, 11);
 		
 		//	Kill certo
-		if (target.distance <= impossibleDodgeDistanceDash && movementController.CanDash() && instakillValue <= instakillChance && target.state != (int)Powerup.States.Zhonya){
+		if (target.distance <= impossibleDodgeDistanceDash && movementController.CanDash() && instakillValue <= instakillChance && target.state != (int)LivingEntity.State.Zhonya){
 
 			enemyState = State.Dash;
 			return;
@@ -237,7 +236,7 @@ public class Enemy : LivingEntity {
 
 		if (target.distance <= minDistanceToDash && dashValue <= dashChance){
 
-			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && movementController.CanDash() && dashValue <= dashChance && target.state != (int)Powerup.States.Zhonya) {
+			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && movementController.CanDash() && dashValue <= dashChance && target.state != (int)LivingEntity.State.Zhonya) {
 
 				enemyState = State.Dash;
 				return;
@@ -271,11 +270,11 @@ public class Enemy : LivingEntity {
 		}
 	}
 
-	public void RemoveEntity(GameObject livingEntity){
+	public void RemoveEntity(LivingEntity livingEntity){
 
 		foreach(Player player in players){
 
-			if (player.GetGameObject() == livingEntity){
+			if (player.GetLivingEntity() == livingEntity){
 
 				players.Remove(player);
 				return;
@@ -286,17 +285,15 @@ public class Enemy : LivingEntity {
 
 	public struct Player{
 
-		GameObject entity;
+		LivingEntity entity;
 		Vector3 position;
 		Rigidbody rb;
-		Powerup powerup;
 
-		public Player(GameObject _entity, Vector3 _position, Rigidbody _rb, Powerup _powerup){
+		public Player(LivingEntity _entity, Vector3 _position, Rigidbody _rb){
 
 			entity = _entity;
 			position = _position;
 			rb = _rb;
-			powerup = _powerup;
 
 		}
 
@@ -304,7 +301,7 @@ public class Enemy : LivingEntity {
 			position = entity.transform.position;
 		}
 
-		public GameObject GetGameObject(){
+		public LivingEntity GetLivingEntity(){
 			return entity;
 		}
 
@@ -317,7 +314,7 @@ public class Enemy : LivingEntity {
 		}
 
 		public int GetState(){
-			return powerup.GetState();
+			return (int)entity.GetState();
 		}
 
 	}

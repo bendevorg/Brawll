@@ -8,8 +8,15 @@ public class LivingEntity : MonoBehaviour {
 	[Range(1, 1000)]
 	public int life = 1;
 
-	public event Action<GameObject> OnEntityDeath;
+	public enum State {None = -1, Zhonya = 0};
+	public State actualState = State.None;
+
+	public event Action<LivingEntity> OnEntityDeath;
 	public ParticleSystem deathEffect;
+
+	public int GetState(){
+		return (int)actualState;
+	}
 
 	void TakeDamage(int damage){
 
@@ -21,13 +28,14 @@ public class LivingEntity : MonoBehaviour {
 	}
 
 	void Death(){
+		
 		CameraShaker.Shake(0.3f, 0.3f);
 		AudioManager.instance.PlaySound("Death");
 
 		Instantiate(deathEffect, transform.position, Quaternion.identity);
 
 		if (OnEntityDeath != null){
-			OnEntityDeath(gameObject);
+			OnEntityDeath(this);
 		}
 
 		GameController.gameController.PlayerDied(gameObject.tag);

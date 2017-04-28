@@ -8,6 +8,8 @@ public class EndlessUI : MonoBehaviour {
 	public Text waveText;
 	public Text enemiesRemainingText;
 
+	public enum States {None = -1, Zhonya = 0};
+
 	public void ChangeWaveText(int wave){
 
 		waveText.text = "Wave: " + wave;
