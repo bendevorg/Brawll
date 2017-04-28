@@ -126,9 +126,15 @@ public class Enemy : LivingEntity {
 		DecideBehavior();
 
 		//	Decidindo a direção que vamos
-		Vector3 finalTargetPos = target.position + (target.velocity/10);
-
 		Vector3 direction = (target.position - transform.position);
+
+		Vector3 relativeVelocityToTarget = Vector3.Project(rb.velocity, direction);
+		float enemyVelocityToTarget = relativeVelocityToTarget.sqrMagnitude==0?0.1f:relativeVelocityToTarget.sqrMagnitude;
+		float enemyTimeToCoverDistance = target.distance/enemyVelocityToTarget;
+		Debug.Log(enemyTimeToCoverDistance);
+
+		Vector3 finalTargetPos = target.position + (target.velocity/1000);
+
 		Vector3 directionPredicted = difficulty < minDifficultyToPredict?(target.position - transform.position):(finalTargetPos - transform.position);
 
 		input = new Vector2(direction.x, direction.z);
