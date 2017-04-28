@@ -80,7 +80,7 @@ public class Movement : MonoBehaviour {
 		Vector3 knockbackClamped = Vector3.ClampMagnitude(knockback, 10);
 		rb.AddForce(knockbackClamped, ForceMode.Impulse);
 
-		Destroy(Instantiate(hitEffect, col.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, col.relativeVelocity)), 2f);
+		Destroy(Instantiate(hitEffect, col.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, col.relativeVelocity)).gameObject, 2f);
 
 	}
 
