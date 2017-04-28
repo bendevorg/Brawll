@@ -3,26 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Zhonya))]
+[RequireComponent(typeof(Bulk))]
 public class Powerup : MonoBehaviour {
 
 	//	Jogar isso pro game controller
-	public enum Powerups {None = -1, Zhonya = 0, Reflection = 1};
-
+	public enum Powerups {None = -1, Zhonya = 0, Reflection = 1, Bulk = 2};
 	Powerups actualPowerup = Powerups.None;
-
-	/*public float bulkMass = 4f;
-	public float bulkSize = 4f;
-	Vector3 bulkScale;
-	public float timeToBulk = .2f;
-	public float bulkDuration = 5f;
-	[RangeAttribute(0, 1)]
-	public float bulkSpeedPercentage = 0.2f;
-	*/
 
 	LivingEntity ownerEntity;
 
 	//	Zhonya Special
 	public Zhonya zhonya;
+	public Bulk bulk;
 
 	//	Reflection Special
 	public GameObject reflectionSpecial;
@@ -34,8 +26,7 @@ public class Powerup : MonoBehaviour {
 		ownerEntity = GetComponent<LivingEntity>();
 
 		zhonya = GetComponent<Zhonya>();
-
-		//bulkScale = new Vector3(bulkSize, bulkSize, bulkSize);
+		bulk = GetComponent<Bulk>();
 
 	}
 
@@ -49,25 +40,19 @@ public class Powerup : MonoBehaviour {
 		
 		switch (actualPowerup){
 
-			/*case Powerups.Bulk:
-				
-				StartCoroutine(Bulk());
-
-				actualPowerup = Powerups.None;
-				break;
-			*/
-
 			case Powerups.Zhonya:
 
 				ActivateZhonya();
 				break;
 
 			case Powerups.Reflection:
-				GameObject specialInstance = Instantiate(reflectionSpecial, transform.position, Quaternion.identity) as GameObject;
-				SpecialController specialController = specialInstance.GetComponent<SpecialController>();
-				specialController.caster = this.gameObject;
-				AudioManager.instance.PlaySound("Force");
-				ResetPowerup();
+
+				ActivateReflection();
+				break;
+
+			case Powerups.Bulk:
+				
+				ActivateBulk();
 				break;
 
 			case Powerups.None:
@@ -79,8 +64,25 @@ public class Powerup : MonoBehaviour {
 
 	public void ActivateZhonya(){
 		
-		ResetPowerup();
 		zhonya.ActivateZhonya();
+		ResetPowerup();
+
+	}
+
+	public void ActivateReflection(){
+
+		GameObject specialInstance = Instantiate(reflectionSpecial, transform.position, Quaternion.identity) as GameObject;
+		SpecialController specialController = specialInstance.GetComponent<SpecialController>();
+		specialController.caster = this.gameObject;
+		AudioManager.instance.PlaySound("Force");
+		ResetPowerup();
+
+	}
+
+	public void ActivateBulk(){
+		
+		bulk.ActivateBulk();
+		ResetPowerup();
 
 	}
 
@@ -101,54 +103,4 @@ public class Powerup : MonoBehaviour {
 
 		}
 	}
-/* 
-	IEnumerator Bulk(){
-
-		float oldMass = rb.mass;
-		Vector3 oldScale = transform.localScale;
-		float timeToBulkUp = timeToBulk + Time.time;
-
-		rb.isKinematic = true;
-
-		while (rb.mass < bulkMass && transform.localScale.x < bulkScale.x){
-
-			rb.mass = Mathf.Lerp(rb.mass, bulkMass, timeToBulkUp);
-			transform.localScale = Vector3.Lerp(transform.localScale, bulkScale, timeToBulkUp);
-			yield return null;
-
-		}
-
-		rb.isKinematic = false;
-
-		rb.mass = Mathf.Clamp(rb.mass, oldMass, bulkMass);
-		transform.localScale = Vector3.ClampMagnitude(transform.localScale, bulkScale.magnitude);
-		float bulkBoostForce = bulkMass / oldMass;
-		forceMultiplier *= (bulkBoostForce * bulkSpeedPercentage);
-
-		float bulkDurationRemaining = bulkDuration + Time.time;
-
-		while (bulkDurationRemaining > Time.time){
-			yield return null;
-		}
-		
-		rb.isKinematic = true;
-
-		while (rb.mass > oldMass && transform.localScale.x > oldScale.x){
-
-			rb.mass = Mathf.Lerp(rb.mass, oldMass, timeToBulkUp);
-			transform.localScale = Vector3.Lerp(transform.localScale, oldScale, timeToBulkUp);
-			yield return null;
-
-		}
-
-		rb.isKinematic = false;
-
-		rb.mass = Mathf.Clamp(rb.mass, oldMass, oldMass);
-		transform.localScale = Vector3.ClampMagnitude(oldScale, oldScale.magnitude);
-		forceMultiplier /= (bulkBoostForce * bulkSpeedPercentage);
-
-		yield return null;
-
-	}
-*/
 }

@@ -24,9 +24,7 @@ public class Zhonya : MonoBehaviour {
 	}
 	
 	public void ActivateZhonya(){
-
 		StartCoroutine(StartZhonya());
-
 	}
 
 	public bool IsZhonyaActive(){
