@@ -38,8 +38,8 @@ public class Enemy : LivingEntity {
 
 	public Color[] enemyColors;
 
-	enum State {Engage, Dash, Desengage, Powerup, PickPowerup};
-	State enemyState;
+	enum Behavior {Engage, Dash, Desengage, Powerup, PickPowerup};
+	Behavior enemyBehavior;
 
 	float maxYDistanceToHit;
 	public float minDistanceToDash = 2.5f;
@@ -108,9 +108,9 @@ public class Enemy : LivingEntity {
 
 		DecideNextMovement();
 
-		switch (enemyState){
+		switch (enemyBehavior){
 
-			case State.Desengage:
+			case Behavior.Desengage:
 
 				Vector3 direction = (ground.position - transform.position);
 				input = new Vector2(direction.x, direction.z);
@@ -139,23 +139,23 @@ public class Enemy : LivingEntity {
 
 				break;
 
-			case State.Dash:
+			case Behavior.Dash:
 
 				movementController.Dash(input.x, input.y, 1/handicap);
 				break;
 
-			case State.Engage:
+			case Behavior.Engage:
 
 				// Debug.DrawLine (transform.position, (Vector2)transform.position + input * 10, Color.red, Mathf.Infinity);
 				movementController.Move(inputPrediction.x, inputPrediction.y, 1/handicap);
 				break;
 
-			case State.Powerup:
+			case Behavior.Powerup:
 
 				powerupController.UsePowerup();
 				break;
 
-			case State.PickPowerup:
+			case Behavior.PickPowerup:
 
 				Debug.DrawRay (transform.position, input, Color.red, .1f);
 				movementController.Move(input.x, input.y, 1/handicap);
@@ -169,7 +169,7 @@ public class Enemy : LivingEntity {
 
 		DecideTarget();
 
-		DecideState();
+		DecideBehavior();
 
 		//	Decidindo a direção que vamos
 		Vector3 finalTargetPos = target.position + (target.velocity/10);
@@ -182,7 +182,7 @@ public class Enemy : LivingEntity {
 
 	}
 	
-	public void DecideState(){
+	public void DecideBehavior(){
 
 		int instakillValue = Random.Range(1, 11);
 		int zhonyasValue = Random.Range(1, 11);
@@ -192,7 +192,7 @@ public class Enemy : LivingEntity {
 		//	Kill certo
 		if (target.distance <= impossibleDodgeDistanceDash && movementController.CanDash() && instakillValue <= instakillChance && target.state != (int)LivingEntity.State.Zhonya){
 
-			enemyState = State.Dash;
+			enemyBehavior = Behavior.Dash;
 			return;
 
 		}
@@ -203,7 +203,7 @@ public class Enemy : LivingEntity {
 			//	Zhonyas
 			if (target.velocity.sqrMagnitude > rb.velocity.sqrMagnitude && ((powerupController.GetPowerup() == (int)Powerup.Powerups.Zhonya && zhonyasValue <= zhonyasChance) || (powerupController.GetPowerup() == (int)Powerup.Powerups.Reflection && forcevalue <= forceChance))) {
 
-				enemyState = State.Powerup;
+				enemyBehavior = Behavior.Powerup;
 				return;
 
 			}
@@ -229,7 +229,7 @@ public class Enemy : LivingEntity {
 
 		if (!Physics.Raycast(futurePosition, -Vector3.up, Mathf.Infinity, obstacleMask)){
 
-			enemyState = State.Desengage;
+			enemyBehavior = Behavior.Desengage;
 			return;
 
 		}
@@ -238,13 +238,13 @@ public class Enemy : LivingEntity {
 
 			if (Mathf.Abs(target.position.y - transform.position.y) <= maxYDistanceToHit && movementController.CanDash() && dashValue <= dashChance && target.state != (int)LivingEntity.State.Zhonya) {
 
-				enemyState = State.Dash;
+				enemyBehavior = Behavior.Dash;
 				return;
 
 			}
 		}
 
-		enemyState = State.Engage;
+		enemyBehavior = Behavior.Engage;
 		return;
 
 	}
