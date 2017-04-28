@@ -9,8 +9,8 @@ public class Collectable : MonoBehaviour {
 	public float minTimeToRespawn = 5f;
 	public float maxTimeToRespawn = 10f;
 
-	BoxCollider collider;
-	MeshRenderer renderer;
+	BoxCollider col;
+	MeshRenderer meshRenderer;
 	Renderer rend;
 
 	int powerupAmount = 2;
@@ -22,12 +22,12 @@ public class Collectable : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		collider = GetComponent<BoxCollider>();
-		renderer = GetComponent<MeshRenderer>();
+		col = GetComponent<BoxCollider>();
+		meshRenderer = GetComponent<MeshRenderer>();
 		rend = GetComponent<Renderer>();
 
-		collider.enabled = false;
-		renderer.enabled = false;
+		col.enabled = false;
+		meshRenderer.enabled = false;
 
 		StartCoroutine(Spawn());
 
@@ -39,8 +39,8 @@ public class Collectable : MonoBehaviour {
 	
 	public int PickUp(){
 
-		collider.enabled = false;
-		renderer.enabled = false;
+		col.enabled = false;
+		meshRenderer.enabled = false;
 		pickupAvaiable = false;
 
 		StartCoroutine(Spawn());
@@ -67,8 +67,8 @@ public class Collectable : MonoBehaviour {
 		actualPowerup = Random.Range(0, powerupAmount);
 		rend.material.color = actualPowerup <= powerupColors.Length?powerupColors[actualPowerup]:Color.black;
 
-		renderer.enabled = true;
-		collider.enabled = true;
+		meshRenderer.enabled = true;
+		col.enabled = true;
 		pickupAvaiable = true;
 
 	}

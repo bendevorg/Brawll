@@ -44,7 +44,7 @@ public class Bulk : MonoBehaviour {
 
 		rb.mass = Mathf.Clamp(rb.mass, oldMass, bulkMass);
 		transform.localScale = Vector3.ClampMagnitude(transform.localScale, bulkScale.magnitude);
-		float bulkBoostForce = bulkMass / oldMass;
+		//float bulkBoostForce = bulkMass / oldMass;
 		//forceMultiplier *= (bulkBoostForce * bulkSpeedPercentage);
 
 		float bulkDurationRemaining = bulkDuration + Time.time;

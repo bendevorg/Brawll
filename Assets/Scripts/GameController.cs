@@ -41,7 +41,6 @@ using System;
 	int singleMatchEnemiesAmount;
 
 	//	Players and enemies management
-	public event Action<LivingEntity> OnEntitySpawn;
 	public List<Player> players = new List<Player>();
 
 	int playersActiveAmount = 0;
