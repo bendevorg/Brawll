@@ -28,11 +28,11 @@ public class LivingEntity : MonoBehaviour {
 	}
 
 	void Death(){
-		
+
 		CameraShaker.Shake(0.3f, 0.3f);
 		AudioManager.instance.PlaySound("Death");
 
-		Instantiate(deathEffect, transform.position, Quaternion.identity);
+		Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity).gameObject, 2f);
 
 		if (OnEntityDeath != null){
 			OnEntityDeath(this);
